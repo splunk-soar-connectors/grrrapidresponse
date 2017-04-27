@@ -1,0 +1,83 @@
+{
+  "appid": "028de4a3-5b00-4357-b8d5-b7c71044c7fa",
+  "name": "GRR Rapid Response",
+  "description": "Implements various actions from the GRR API",
+  "publisher": "Phantom",
+  "type": "endpoint",
+  "main_module": "grr_connector.pyc",
+    "app_version": "1.0.2",
+    "utctime_updated": "2016-08-12T03:32:34.000000Z",
+  "package_name": "phantom_grr",
+  "product_vendor": "Google",
+  "product_name": "GRR Rapid Response",
+  "product_version_regex": ".*",
+  "min_phantom_version": "1.2.265",
+  "license": "Copyright (c) Phantom Cyber Corporation 2016",
+  "configuration": {
+    "username": {
+      "data_type": "string",
+      "order": 0,
+      "description": "User Name",
+      "required": true
+    },
+    "password": {
+      "data_type": "password",
+      "order": 1,
+      "description": "Password",
+      "required": true
+    },
+    "server": {
+      "data_type": "string",
+      "order": 2,
+      "description": "GRR Server",
+      "required": true
+    }
+  },
+  "actions": [
+    {
+      "action": "test connectivity",
+      "description": "Validates connectivity to CylancePROTECT",
+      "type": "test",
+      "identifier": "test_asset_connectivity",
+      "read_only": true,
+      "parameters": {},
+      "output": [],
+      "versions": "EQ(*)"
+    },
+    {
+      "action": "list endpoints",
+      "description": "List all of the clients connected to the GRR Rapid Response server",
+      "type": "investigate",
+      "identifier": "list_endpoints",
+      "read_only": true,
+      "parameters": {
+      },
+      "output": [],
+      "versions": "EQ(*)"
+    },
+    {
+      "action": "get file info",
+      "description": "Get information about a file on an endpoint",
+      "type": "investigate",
+      "identifier": "get_file_info",
+      "read_only": true,
+      "parameters": {
+        "client_id": {
+          "data_type": "string",
+          "description": "Client ID",
+          "contains": [ "grr client id" ],
+          "required": true,
+          "primary": true
+        },
+        "file_path": {
+          "data_type": "string",
+          "description": "File Path",
+          "required": true,
+          "primary": true
+        }
+      },
+      "output": [],
+      "versions": "EQ(*)"
+    }
+  ]
+}

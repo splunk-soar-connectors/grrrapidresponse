@@ -5,8 +5,8 @@
   "publisher": "Phantom",
   "type": "endpoint",
   "main_module": "grr_connector.pyc",
-    "app_version": "1.0.3",
-    "utctime_updated": "2017-04-29T02:31:10.000000Z",
+  "app_version": "1.0.4",
+  "utctime_updated": "2017-12-19T23:41:27.000000Z",
   "package_name": "phantom_grr",
   "product_vendor": "Google",
   "product_name": "GRR Rapid Response",
@@ -50,8 +50,7 @@
       "type": "investigate",
       "identifier": "list_endpoints",
       "read_only": true,
-      "parameters": {
-      },
+      "parameters": {},
       "output": [],
       "versions": "EQ(*)"
     },
@@ -65,7 +64,9 @@
         "client_id": {
           "data_type": "string",
           "description": "Client ID",
-          "contains": [ "grr client id" ],
+          "contains": [
+            "grr client id"
+          ],
           "required": true,
           "primary": true
         },

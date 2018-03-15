@@ -393,8 +393,6 @@ class GrrConnector(BaseConnector):
         for item in response.get('items', {}):
             action_result.add_data(item)
 
-        action_result.add_data({})
-
         # Return success, no need to set the message, only the status
         # BaseConnector will create a textual message based off of the summary dictionary
         return action_result.set_status(phantom.APP_SUCCESS, "Successfully retrieved netstat information")
@@ -477,8 +475,6 @@ class GrrConnector(BaseConnector):
         # Add the response into the data section
         action_result.add_data(response)
 
-        action_result.add_data({})
-
         # Add a dictionary that is made up of the most important values from data into the summary
         summary = action_result.update_summary({})
         summary['success'] = True
@@ -546,8 +542,6 @@ class GrrConnector(BaseConnector):
         # Add the response into the data section
         for item in response.get('items', {}):
             action_result.add_data(item)
-
-        action_result.add_data({})
 
         summary['total_count'] = response.get('totalCount', {})
 

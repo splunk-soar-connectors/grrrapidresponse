@@ -1,84 +1,2303 @@
 {
-  "appid": "028de4a3-5b00-4357-b8d5-b7c71044c7fa",
-  "name": "GRR Rapid Response",
-  "description": "Implements various actions from the GRR API",
-  "publisher": "Phantom",
-  "type": "endpoint",
-  "main_module": "grr_connector.pyc",
-  "app_version": "1.0.4",
-  "utctime_updated": "2017-12-19T23:41:27.000000Z",
-  "package_name": "phantom_grr",
-  "product_vendor": "Google",
-  "product_name": "GRR Rapid Response",
-  "product_version_regex": ".*",
-  "min_phantom_version": "1.2.265",
-  "license": "Copyright (c) Phantom Cyber Corporation 2016",
-  "configuration": {
-    "username": {
-      "data_type": "string",
-      "order": 0,
-      "description": "User Name",
-      "required": true
-    },
-    "password": {
-      "data_type": "password",
-      "order": 1,
-      "description": "Password",
-      "required": true
-    },
-    "server": {
-      "data_type": "string",
-      "order": 2,
-      "description": "GRR Server",
-      "required": true
-    }
-  },
-  "actions": [
-    {
-      "action": "test connectivity",
-      "description": "Validates connectivity to CylancePROTECT",
-      "type": "test",
-      "identifier": "test_asset_connectivity",
-      "read_only": true,
-      "parameters": {},
-      "output": [],
-      "versions": "EQ(*)"
-    },
-    {
-      "action": "list endpoints",
-      "description": "List all of the clients connected to the GRR Rapid Response server",
-      "type": "investigate",
-      "identifier": "list_endpoints",
-      "read_only": true,
-      "parameters": {},
-      "output": [],
-      "versions": "EQ(*)"
-    },
-    {
-      "action": "get file info",
-      "description": "Get information about a file on an endpoint",
-      "type": "investigate",
-      "identifier": "get_file_info",
-      "read_only": true,
-      "parameters": {
-        "client_id": {
-          "data_type": "string",
-          "description": "Client ID",
-          "contains": [
-            "grr client id"
-          ],
-          "required": true,
-          "primary": true
+    "appid": "d15259be-7a89-4f26-b896-c9302376f2e7",
+    "name": "GRR Rapid Response",
+    "description": "This app implements various actions from the GRR API",
+    "type": "endpoint",
+    "product_vendor": "Google",
+    "logo": "logo_grr.svg",
+    "logo_dark": "logo_grr_dark.svg",
+    "product_name": "GRR Rapid Response",
+    "product_version_regex": ".*",
+    "publisher": "Phantom",
+    "license": "Copyright (c) Phantom Cyber Corporation, 2018",
+    "app_version": "1.0.0",
+    "utctime_updated": "2018-02-15T04:05:01.869199Z",
+    "package_name": "phantom_grr",
+    "main_module": "grr_connector.pyc",
+    "min_phantom_version": "3.0.284",
+    "app_wizard_version": "1.0.0",
+    "configuration": {
+        "username": {
+            "description": "Username",
+            "data_type": "string",
+            "required": true,
+            "default": "",
+            "order": 0
         },
-        "file_path": {
-          "data_type": "string",
-          "description": "File Path",
-          "required": true,
-          "primary": true
+        "password": {
+            "description": "Password",
+            "data_type": "password",
+            "required": true,
+            "order": 1
+        },
+        "server": {
+            "description": "GRR Server",
+            "data_type": "string",
+            "required": true,
+            "default": "",
+            "order": 2
         }
-      },
-      "output": [],
-      "versions": "EQ(*)"
-    }
-  ]
+    },
+    "actions": [
+        {
+            "action": "test connectivity",
+            "identifier": "test_connectivity",
+            "description": "Validate the asset configuration for connectivity using supplied configuration",
+            "verbose": "",
+            "type": "test",
+            "read_only": true,
+            "parameters": {},
+            "output": [],
+            "versions": "EQ(*)"
+        },
+        {
+            "action": "list connections",
+            "identifier": "list_connections",
+            "description": "List all the connections configured on the device",
+            "verbose": "",
+            "type": "investigate",
+            "read_only": true,
+            "parameters": {
+                "client_id": {
+                    "data_type": "string",
+                    "order": 0,
+                    "description": "Grr client id",
+                    "contains": [
+                        "grr client id"
+                    ],
+                    "required": true,
+                    "primary": true
+                }
+            },
+            "output": [
+                {
+                    "data_path": "action_result.status",
+                    "data_type": "string",
+                    "example_values": [
+                        "success"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.client_id",
+                    "data_type": "string",
+                    "example_values": [
+                        "C.7459eeb515c40632"
+                    ],
+                    "contains": [
+                        "grr client id"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.payload.@type",
+                    "data_type": "string",
+                    "example_values": [
+                        "type.googleapis.com/NetworkConnection"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.payload.family",
+                    "data_type": "string",
+                    "example_values": [
+                        "INET"
+                    ],
+                    "column_name": "Payload Family",
+                    "column_order": 1
+                },
+                {
+                    "data_path": "action_result.data.*.payload.localAddress.ip",
+                    "data_type": "string",
+                    "example_values": [
+                        "0.0.0.0"
+                    ],
+                    "contains": [
+                        "ip"
+                    ],
+                    "column_name": "Local Address",
+                    "column_order": 5
+                },
+                {
+                    "data_path": "action_result.data.*.payload.localAddress.port",
+                    "data_type": "numeric",
+                    "example_values": [
+                        138
+                    ],
+                    "column_name": "Local Port",
+                    "column_order": 6
+                },
+                {
+                    "data_path": "action_result.data.*.payload.pid",
+                    "data_type": "numeric",
+                    "example_values": [
+                        1
+                    ],
+                    "contains": [
+                        "pid"
+                    ],
+                    "column_name": "PID",
+                    "column_order": 7
+                },
+                {
+                    "data_path": "action_result.data.*.payload.remoteAddress.ip",
+                    "data_type": "string",
+                    "example_values": [
+                        "17.249.28.93"
+                    ],
+                    "contains": [
+                        "ip"
+                    ],
+                    "column_name": "Remote Address",
+                    "column_order": 3
+                },
+                {
+                    "data_path": "action_result.data.*.payload.remoteAddress.port",
+                    "data_type": "numeric",
+                    "example_values": [
+                        5223
+                    ],
+                    "column_name": "Remote Port",
+                    "column_order": 4
+                },
+                {
+                    "data_path": "action_result.data.*.payload.state",
+                    "data_type": "string",
+                    "example_values": [
+                        "NONE"
+                    ],
+                    "column_name": "State",
+                    "column_order": 0
+                },
+                {
+                    "data_path": "action_result.data.*.payload.type",
+                    "data_type": "string",
+                    "example_values": [
+                        "SOCK_DGRAM"
+                    ],
+                    "column_name": "Payload Type",
+                    "column_order": 2
+                },
+                {
+                    "data_path": "action_result.data.*.payloadType",
+                    "data_type": "string",
+                    "example_values": [
+                        "NetworkConnection"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.timestamp",
+                    "data_type": "string",
+                    "example_values": [
+                        "1521067743700341"
+                    ]
+                },
+                {
+                    "data_path": "action_result.summary.flow_id",
+                    "data_type": "string",
+                    "example_values": [
+                        "F:4849031C"
+                    ]
+                },
+                {
+                    "data_path": "action_result.summary.status",
+                    "data_type": "string",
+                    "example_values": [
+                        "Successfully wrote 56 connections."
+                    ]
+                },
+                {
+                    "data_path": "action_result.message",
+                    "data_type": "string",
+                    "example_values": [
+                        "Successfully retrieved netstat information"
+                    ]
+                },
+                {
+                    "data_path": "summary.total_objects",
+                    "data_type": "numeric",
+                    "example_values": [
+                        1
+                    ]
+                },
+                {
+                    "data_path": "summary.total_objects_successful",
+                    "data_type": "numeric",
+                    "example_values": [
+                        1
+                    ]
+                }
+            ],
+            "render": {
+                "type": "table"
+            },
+            "versions": "EQ(*)"
+        },
+        {
+            "action": "list endpoints",
+            "identifier": "list_endpoints",
+            "description": "List all the endpoints/sensors configured on the device",
+            "verbose": "",
+            "type": "investigate",
+            "read_only": true,
+            "parameters": {},
+            "output": [
+                {
+                    "data_path": "action_result.status",
+                    "data_type": "string",
+                    "example_values": [
+                        "success"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.age",
+                    "data_type": "string",
+                    "example_values": [
+                        "1520550974243553"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.agentInfo.buildTime",
+                    "data_type": "string",
+                    "example_values": [
+                        "2016-06-14 17:57:23"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.agentInfo.clientDescription",
+                    "data_type": "string",
+                    "example_values": [
+                        "grr darwin amd64"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.agentInfo.clientName",
+                    "data_type": "string",
+                    "example_values": [
+                        "grr"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.agentInfo.clientVersion",
+                    "data_type": "numeric",
+                    "example_values": [
+                        3102
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.clientId",
+                    "data_type": "string",
+                    "example_values": [
+                        "C.7459eeb515c40632"
+                    ],
+                    "contains": [
+                        "grr client id"
+                    ],
+                    "column_name": "Client ID",
+                    "column_order": 4
+                },
+                {
+                    "data_path": "action_result.data.*.firstSeenAt",
+                    "data_type": "string",
+                    "example_values": [
+                        "1470712631079150"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.hardwareInfo.biosReleaseDate",
+                    "data_type": "string",
+                    "example_values": [
+                        "07/30/2013"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.hardwareInfo.biosRevision",
+                    "data_type": "string",
+                    "example_values": [
+                        "4.6"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.hardwareInfo.biosRomSize",
+                    "data_type": "string",
+                    "example_values": [
+                        "64 kB"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.hardwareInfo.biosVendor",
+                    "data_type": "string",
+                    "example_values": [
+                        "Phoenix Technologies LTD"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.hardwareInfo.biosVersion",
+                    "data_type": "string",
+                    "example_values": [
+                        "MM51.007B.B00"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.hardwareInfo.serialNumber",
+                    "data_type": "string",
+                    "example_values": [
+                        "C07G11R8DJY7"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.hardwareInfo.systemFamily",
+                    "data_type": "string",
+                    "example_values": [
+                        "Not Specified"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.hardwareInfo.systemManufacturer",
+                    "data_type": "string",
+                    "example_values": [
+                        "VMware"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.hardwareInfo.systemProductName",
+                    "data_type": "string",
+                    "example_values": [
+                        "Macmini5,3"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.hardwareInfo.systemSkuNumber",
+                    "data_type": "string",
+                    "example_values": [
+                        "Not Specified"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.hardwareInfo.systemUuid",
+                    "data_type": "string",
+                    "example_values": [
+                        "564D9FC8-45F6-EED0-961A-ECDA131E1366"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.interfaces.*.addresses.*.addressType",
+                    "data_type": "string",
+                    "example_values": [
+                        "INET6"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.interfaces.*.addresses.*.packedBytes",
+                    "data_type": "string",
+                    "example_values": [
+                        "/oAAAAAAAADKKhT//lSKIA=="
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.interfaces.*.ifname",
+                    "data_type": "string",
+                    "example_values": [
+                        "gif0"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.interfaces.*.macAddress",
+                    "data_type": "string",
+                    "example_values": [
+                        "sgAeAmcB"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.knowledgeBase.hostname",
+                    "data_type": "string",
+                    "example_values": [
+                        "hermans-mac-mini.local"
+                    ],
+                    "contains": [
+                        "host name"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.knowledgeBase.os",
+                    "data_type": "string",
+                    "example_values": [
+                        "Darwin"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.knowledgeBase.osMajorVersion",
+                    "data_type": "numeric",
+                    "example_values": [
+                        10
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.knowledgeBase.osMinorVersion",
+                    "data_type": "numeric",
+                    "example_values": [
+                        11
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.knowledgeBase.osRelease",
+                    "data_type": "string",
+                    "example_values": [
+                        "Ubuntu"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.knowledgeBase.users.*.fullName",
+                    "data_type": "string",
+                    "example_values": [
+                        "root"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.knowledgeBase.users.*.homedir",
+                    "data_type": "string",
+                    "example_values": [
+                        "/Users/deleteme"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.knowledgeBase.users.*.lastLogon",
+                    "data_type": "string",
+                    "example_values": [
+                        "1520034035000000"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.knowledgeBase.users.*.username",
+                    "data_type": "string",
+                    "example_values": [
+                        "deleteme"
+                    ],
+                    "contains": [
+                        "grr user"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.lastBootedAt",
+                    "data_type": "string",
+                    "example_values": [
+                        "1520029440000000"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.lastClock",
+                    "data_type": "string",
+                    "example_values": [
+                        "1521070306686653"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.lastCrashAt",
+                    "data_type": "string",
+                    "example_values": [
+                        "1520030649377194"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.lastSeenAt",
+                    "data_type": "string",
+                    "example_values": [
+                        "1521070306700415"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.memorySize",
+                    "data_type": "string",
+                    "example_values": [
+                        "4294967296"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.osInfo.fqdn",
+                    "data_type": "string",
+                    "example_values": [
+                        "hermans-mac-mini.local"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.osInfo.installDate",
+                    "data_type": "string",
+                    "example_values": [
+                        "1470170520000000"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.osInfo.kernel",
+                    "data_type": "string",
+                    "example_values": [
+                        "15.6.0"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.osInfo.machine",
+                    "data_type": "string",
+                    "example_values": [
+                        "x86_64"
+                    ],
+                    "column_name": "Machine",
+                    "column_order": 3
+                },
+                {
+                    "data_path": "action_result.data.*.osInfo.node",
+                    "data_type": "string",
+                    "example_values": [
+                        "Hermans-Mac-mini.local"
+                    ],
+                    "column_name": "Host",
+                    "column_order": 0
+                },
+                {
+                    "data_path": "action_result.data.*.osInfo.release",
+                    "data_type": "string",
+                    "example_values": [
+                        "OSX"
+                    ],
+                    "column_name": "Release",
+                    "column_order": 1
+                },
+                {
+                    "data_path": "action_result.data.*.osInfo.system",
+                    "data_type": "string",
+                    "example_values": [
+                        "Darwin"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.osInfo.version",
+                    "data_type": "string",
+                    "example_values": [
+                        "10.11.6"
+                    ],
+                    "column_name": "OS Version",
+                    "column_order": 2
+                },
+                {
+                    "data_path": "action_result.data.*.urn",
+                    "data_type": "string",
+                    "example_values": [
+                        "aff4:/C.7459eeb515c40632"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.users.*.fullName",
+                    "data_type": "string",
+                    "example_values": [
+                        "root"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.users.*.homedir",
+                    "data_type": "string",
+                    "example_values": [
+                        "/Users/deleteme"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.users.*.lastLogon",
+                    "data_type": "string",
+                    "example_values": [
+                        "1520034035000000"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.users.*.username",
+                    "data_type": "string",
+                    "example_values": [
+                        "deleteme"
+                    ],
+                    "contains": [
+                        "user name"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.volumes.*.actualAvailableAllocationUnits",
+                    "data_type": "string",
+                    "example_values": [
+                        "116864728"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.volumes.*.bytesPerSector",
+                    "data_type": "string",
+                    "example_values": [
+                        "4096"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.volumes.*.sectorsPerAllocationUnit",
+                    "data_type": "string",
+                    "example_values": [
+                        "1"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.volumes.*.totalAllocationUnits",
+                    "data_type": "string",
+                    "example_values": [
+                        "121886744"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.volumes.*.unixvolume.mountPoint",
+                    "data_type": "string",
+                    "example_values": [
+                        "/"
+                    ]
+                },
+                {
+                    "data_path": "action_result.summary.num_endpoints",
+                    "data_type": "numeric",
+                    "example_values": [
+                        2
+                    ]
+                },
+                {
+                    "data_path": "action_result.message",
+                    "data_type": "string",
+                    "example_values": [
+                        "Num endpoints: 2"
+                    ]
+                },
+                {
+                    "data_path": "summary.total_objects",
+                    "data_type": "numeric",
+                    "example_values": [
+                        1
+                    ]
+                },
+                {
+                    "data_path": "summary.total_objects_successful",
+                    "data_type": "numeric",
+                    "example_values": [
+                        1
+                    ]
+                }
+            ],
+            "render": {
+                "type": "table"
+            },
+            "versions": "EQ(*)"
+        },
+        {
+            "action": "get system info",
+            "description": "Get information about an endpoint",
+            "verbose": "",
+            "type": "investigate",
+            "identifier": "get_system_info",
+            "read_only": true,
+            "parameters": {
+                "client_id": {
+                    "data_type": "string",
+                    "order": 0,
+                    "description": "Grr client id",
+                    "contains": [
+                        "grr client id"
+                    ],
+                    "required": true,
+                    "primary": true
+                }
+            },
+            "render": {
+                "type": "table",
+                "title": "System Info"
+            },
+            "output": [
+                {
+                    "data_path": "action_result.status",
+                    "data_type": "string",
+                    "example_values": [
+                        "success"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.client_id",
+                    "data_type": "string",
+                    "example_values": [
+                        "C.afe31614575f057a"
+                    ],
+                    "contains": [
+                        "grr client id"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.age",
+                    "data_type": "string",
+                    "example_values": [
+                        "1519929380668128"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.agentInfo.buildTime",
+                    "data_type": "string",
+                    "example_values": [
+                        "2016-06-08 20:27:31"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.agentInfo.clientDescription",
+                    "data_type": "string",
+                    "example_values": [
+                        "grr linux amd64"
+                    ],
+                    "column_name": "Description",
+                    "column_order": 1
+                },
+                {
+                    "data_path": "action_result.data.*.agentInfo.clientName",
+                    "data_type": "string",
+                    "example_values": [
+                        "grr"
+                    ],
+                    "column_name": "Name",
+                    "column_order": 11
+                },
+                {
+                    "data_path": "action_result.data.*.agentInfo.clientVersion",
+                    "data_type": "numeric",
+                    "example_values": [
+                        3102
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.clientId",
+                    "data_type": "string",
+                    "example_values": [
+                        "C.afe31614575f057a"
+                    ],
+                    "contains": [
+                        "grr client id"
+                    ],
+                    "column_name": "Client Id",
+                    "column_order": 2
+                },
+                {
+                    "data_path": "action_result.data.*.firstSeenAt",
+                    "data_type": "string",
+                    "example_values": [
+                        "1470712118344458"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.hardwareInfo.biosReleaseDate",
+                    "data_type": "string",
+                    "example_values": [
+                        "07/30/2013"
+                    ],
+                    "column_name": "BIOS Release Date",
+                    "column_order": 3
+                },
+                {
+                    "data_path": "action_result.data.*.hardwareInfo.biosRevision",
+                    "data_type": "string",
+                    "example_values": [
+                        "4.6"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.hardwareInfo.biosRomSize",
+                    "data_type": "string",
+                    "example_values": [
+                        "64 kB"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.hardwareInfo.biosVendor",
+                    "data_type": "string",
+                    "example_values": [
+                        "Phoenix Technologies LTD"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.hardwareInfo.biosVersion",
+                    "data_type": "string",
+                    "example_values": [
+                        "6.00"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.hardwareInfo.serialNumber",
+                    "data_type": "string",
+                    "example_values": [
+                        "VMware-56 4d 9f c8 45 f6 ee d0-96 1a ec da 13 1e 13 66"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.hardwareInfo.systemFamily",
+                    "data_type": "string",
+                    "example_values": [
+                        "Not Specified"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.hardwareInfo.systemManufacturer",
+                    "data_type": "string",
+                    "example_values": [
+                        "VMware"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.hardwareInfo.systemProductName",
+                    "data_type": "string",
+                    "example_values": [
+                        "VMware Virtual Platform"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.hardwareInfo.systemSkuNumber",
+                    "data_type": "string",
+                    "example_values": [
+                        "Not Specified"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.hardwareInfo.systemUuid",
+                    "data_type": "string",
+                    "example_values": [
+                        "564D9FC8-45F6-EED0-961A-ECDA131E1366"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.interfaces.*.addresses.*.addressType",
+                    "data_type": "string",
+                    "example_values": [
+                        "INET"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.interfaces.*.addresses.*.packedBytes",
+                    "data_type": "string",
+                    "example_values": [
+                        "fwAAAQ=="
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.interfaces.*.ifname",
+                    "data_type": "string",
+                    "example_values": [
+                        "lo"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.interfaces.*.macAddress",
+                    "data_type": "string",
+                    "example_values": [
+                        "AAAAAAAA"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.knowledgeBase.hostname",
+                    "data_type": "string",
+                    "example_values": [
+                        "grr"
+                    ],
+                    "contains": [
+                        "host name"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.knowledgeBase.os",
+                    "data_type": "string",
+                    "example_values": [
+                        "Linux"
+                    ],
+                    "column_name": "OS",
+                    "column_order": 4
+                },
+                {
+                    "data_path": "action_result.data.*.knowledgeBase.osMajorVersion",
+                    "data_type": "numeric",
+                    "example_values": [
+                        16
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.knowledgeBase.osMinorVersion",
+                    "data_type": "numeric",
+                    "example_values": [
+                        4
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.knowledgeBase.osRelease",
+                    "data_type": "string",
+                    "example_values": [
+                        "Ubuntu"
+                    ],
+                    "column_name": "OS Release",
+                    "column_order": 5
+                },
+                {
+                    "data_path": "action_result.data.*.knowledgeBase.users.*.fullName",
+                    "data_type": "string",
+                    "example_values": [
+                        "root"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.knowledgeBase.users.*.homedir",
+                    "data_type": "string",
+                    "example_values": [
+                        "/root"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.knowledgeBase.users.*.lastLogon",
+                    "data_type": "string",
+                    "example_values": [
+                        "1518816548000000"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.knowledgeBase.users.*.username",
+                    "data_type": "string",
+                    "contains": [
+                        "grr user"
+                    ],
+                    "example_values": [
+                        "root"
+                    ],
+                    "column_name": "Username",
+                    "column_order": 0
+                },
+                {
+                    "data_path": "action_result.data.*.lastBootedAt",
+                    "data_type": "string",
+                    "example_values": [
+                        "1519928131000000"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.lastClock",
+                    "data_type": "string",
+                    "example_values": [
+                        "1520382854151576"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.lastSeenAt",
+                    "data_type": "string",
+                    "example_values": [
+                        "1520382863513026"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.memorySize",
+                    "data_type": "string",
+                    "example_values": [
+                        "4143869952"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.osInfo.fqdn",
+                    "data_type": "string",
+                    "example_values": [
+                        "grr"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.osInfo.installDate",
+                    "data_type": "string",
+                    "example_values": [
+                        "1470708645000000"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.osInfo.kernel",
+                    "data_type": "string",
+                    "example_values": [
+                        "4.4.0-53-generic"
+                    ],
+                    "column_name": "Kernel",
+                    "column_order": 1
+                },
+                {
+                    "data_path": "action_result.data.*.osInfo.machine",
+                    "data_type": "string",
+                    "example_values": [
+                        "x86_64"
+                    ],
+                    "column_name": "Maching",
+                    "column_order": 3
+                },
+                {
+                    "data_path": "action_result.data.*.osInfo.node",
+                    "data_type": "string",
+                    "example_values": [
+                        "grr"
+                    ],
+                    "column_name": "Node",
+                    "column_order": 0
+                },
+                {
+                    "data_path": "action_result.data.*.osInfo.release",
+                    "data_type": "string",
+                    "example_values": [
+                        "Ubuntu"
+                    ],
+                    "column_name": "Release",
+                    "column_order": 5
+                },
+                {
+                    "data_path": "action_result.data.*.osInfo.system",
+                    "data_type": "string",
+                    "example_values": [
+                        "Linux"
+                    ],
+                    "column_name": "System",
+                    "column_order": 2
+                },
+                {
+                    "data_path": "action_result.data.*.osInfo.version",
+                    "data_type": "string",
+                    "example_values": [
+                        "16.4"
+                    ],
+                    "column_name": "Version",
+                    "column_order": 4
+                },
+                {
+                    "data_path": "action_result.data.*.urn",
+                    "data_type": "string",
+                    "example_values": [
+                        "aff4:/C.afe31614575f057a"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.users.*.fullName",
+                    "data_type": "string",
+                    "example_values": [
+                        "root"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.users.*.homedir",
+                    "data_type": "string",
+                    "example_values": [
+                        "/root"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.users.*.lastLogon",
+                    "data_type": "string",
+                    "example_values": [
+                        "1518816548000000"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.users.*.username",
+                    "data_type": "string",
+                    "contains": [
+                        "grr user"
+                    ],
+                    "example_values": [
+                        "root"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.volumes.*.actualAvailableAllocationUnits",
+                    "data_type": "string",
+                    "example_values": [
+                        "44654214"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.volumes.*.bytesPerSector",
+                    "data_type": "string",
+                    "example_values": [
+                        "4096"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.volumes.*.sectorsPerAllocationUnit",
+                    "data_type": "string",
+                    "example_values": [
+                        "1"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.volumes.*.totalAllocationUnits",
+                    "data_type": "string",
+                    "example_values": [
+                        "50409206"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.volumes.*.unixvolume.mountPoint",
+                    "data_type": "string",
+                    "example_values": [
+                        "/"
+                    ]
+                },
+                {
+                    "data_path": "action_result.summary.success",
+                    "data_type": "boolean",
+                    "example_values": [
+                        true
+                    ]
+                },
+                {
+                    "data_path": "action_result.message",
+                    "data_type": "string",
+                    "example_values": [
+                        "Success: True"
+                    ]
+                },
+                {
+                    "data_path": "summary.total_objects",
+                    "data_type": "numeric",
+                    "example_values": [
+                        1
+                    ]
+                },
+                {
+                    "data_path": "summary.total_objects_successful",
+                    "data_type": "numeric",
+                    "example_values": [
+                        1
+                    ]
+                }
+            ],
+            "versions": "EQ(*)"
+        },
+        {
+            "action": "get file info",
+            "identifier": "get_file_info",
+            "description": "Look for files matching given criteria",
+            "verbose": "",
+            "type": "investigate",
+            "read_only": true,
+            "parameters": {
+                "client_id": {
+                    "description": "Client ID",
+                    "data_type": "string",
+                    "required": true,
+                    "primary": false,
+                    "contains": [
+                        "grr client id"
+                    ],
+                    "default": "",
+                    "order": 0
+                },
+                "file_path": {
+                    "description": "File Path",
+                    "data_type": "string",
+                    "required": true,
+                    "primary": true,
+                    "contains": [
+                        "grr file path"
+                    ],
+                    "default": "",
+                    "order": 1
+                }
+            },
+            "output": [
+                {
+                    "data_path": "action_result.status",
+                    "data_type": "string",
+                    "example_values": [
+                        "success"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.client_id",
+                    "data_type": "string",
+                    "example_values": [
+                        "C.afe31614575f057a"
+                    ],
+                    "contains": [
+                        "grr client id"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.file_path",
+                    "data_type": "string",
+                    "example_values": [
+                        "/home"
+                    ],
+                    "contains": [
+                        "grr file path"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.args.@type",
+                    "data_type": "string",
+                    "example_values": [
+                        "type.googleapis.com/FileFinderArgs"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.args.paths",
+                    "data_type": "string",
+                    "example_values": [
+                        "/home"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.creator",
+                    "data_type": "string",
+                    "contains": [
+                        "grr user"
+                    ],
+                    "example_values": [
+                        "admin"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.flowId",
+                    "data_type": "string",
+                    "example_values": [
+                        "F:CAF8D598"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.items.*.payload.@type",
+                    "data_type": "string",
+                    "example_values": [
+                        "type.googleapis.com/FileFinderResult"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.items.*.payload.statEntry.pathspec.path",
+                    "data_type": "string",
+                    "example_values": [
+                        "/home"
+                    ],
+                    "column_name": "Path",
+                    "column_order": 0
+                },
+                {
+                    "data_path": "action_result.data.*.items.*.payload.statEntry.pathspec.pathOptions",
+                    "data_type": "string",
+                    "example_values": [
+                        "CASE_LITERAL"
+                    ],
+                    "column_name": "Path Options",
+                    "column_order": 1
+                },
+                {
+                    "data_path": "action_result.data.*.items.*.payload.statEntry.pathspec.pathtype",
+                    "data_type": "string",
+                    "example_values": [
+                        "OS"
+                    ],
+                    "column_name": "Path Type",
+                    "column_order": 2
+                },
+                {
+                    "data_path": "action_result.data.*.items.*.payload.statEntry.stAtime",
+                    "data_type": "string",
+                    "example_values": [
+                        "1520304508"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.items.*.payload.statEntry.stBlksize",
+                    "data_type": "numeric",
+                    "example_values": [
+                        4096
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.items.*.payload.statEntry.stBlocks",
+                    "data_type": "numeric",
+                    "example_values": [
+                        8
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.items.*.payload.statEntry.stCtime",
+                    "data_type": "string",
+                    "example_values": [
+                        "1470708903"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.items.*.payload.statEntry.stDev",
+                    "data_type": "numeric",
+                    "example_values": [
+                        64512
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.items.*.payload.statEntry.stGid",
+                    "data_type": "numeric",
+                    "example_values": [
+                        0
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.items.*.payload.statEntry.stIno",
+                    "data_type": "numeric",
+                    "example_values": [
+                        9961473
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.items.*.payload.statEntry.stMode",
+                    "data_type": "string",
+                    "example_values": [
+                        "16877"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.items.*.payload.statEntry.stMtime",
+                    "data_type": "string",
+                    "example_values": [
+                        "1470708903"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.items.*.payload.statEntry.stNlink",
+                    "data_type": "numeric",
+                    "example_values": [
+                        3
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.items.*.payload.statEntry.stRdev",
+                    "data_type": "numeric",
+                    "example_values": [
+                        0
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.items.*.payload.statEntry.stSize",
+                    "data_type": "string",
+                    "example_values": [
+                        "4096"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.items.*.payload.statEntry.stUid",
+                    "data_type": "numeric",
+                    "example_values": [
+                        0
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.items.*.payloadType",
+                    "data_type": "string",
+                    "example_values": [
+                        "FileFinderResult"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.items.*.timestamp",
+                    "data_type": "string",
+                    "example_values": [
+                        "1520304512797149"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.lastActiveAt",
+                    "data_type": "string",
+                    "example_values": [
+                        "1520304473971430"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.name",
+                    "data_type": "string",
+                    "example_values": [
+                        "FileFinder"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.runnerArgs.clientId",
+                    "data_type": "string",
+                    "example_values": [
+                        "aff4:/C.afe31614575f057a"
+                    ],
+                    "contains": [
+                        "grr client id"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.runnerArgs.flowName",
+                    "data_type": "string",
+                    "example_values": [
+                        "FileFinder"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.runnerArgs.notifyToUser",
+                    "data_type": "boolean",
+                    "example_values": [
+                        true
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.runnerArgs.priority",
+                    "data_type": "string",
+                    "example_values": [
+                        "HIGH_PRIORITY"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.startedAt",
+                    "data_type": "string",
+                    "example_values": [
+                        "1520304473878261"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.state",
+                    "data_type": "string",
+                    "example_values": [
+                        "RUNNING"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.totalCount",
+                    "data_type": "string",
+                    "example_values": [
+                        "1"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.urn",
+                    "data_type": "string",
+                    "example_values": [
+                        "aff4:/C.afe31614575f057a/flows/F:CAF8D598"
+                    ]
+                },
+                {
+                    "data_path": "action_result.summary.client_id",
+                    "data_type": "string",
+                    "example_values": [
+                        "C.afe31614575f057a"
+                    ],
+                    "contains": [
+                        "grr client id"
+                    ]
+                },
+                {
+                    "data_path": "action_result.message",
+                    "data_type": "string",
+                    "example_values": [
+                        "Successfully retrieved file information"
+                    ]
+                },
+                {
+                    "data_path": "summary.total_objects",
+                    "data_type": "numeric",
+                    "example_values": [
+                        1
+                    ]
+                },
+                {
+                    "data_path": "summary.total_objects_successful",
+                    "data_type": "numeric",
+                    "example_values": [
+                        1
+                    ]
+                }
+            ],
+            "render": {
+                "type": "table"
+            },
+            "versions": "EQ(*)"
+        },
+        {
+            "action": "get browser cache",
+            "identifier": "get_browser_cache",
+            "description": "Retrieve matching regex in a client's browser cache",
+            "verbose": "",
+            "type": "investigate",
+            "read_only": true,
+            "parameters": {
+                "client_id": {
+                    "description": "Client ID",
+                    "data_type": "string",
+                    "required": true,
+                    "primary": true,
+                    "contains": [
+                        "grr client id"
+                    ],
+                    "default": "",
+                    "order": 0
+                },
+                "browser_cache_regex": {
+                    "description": "Regex to look for",
+                    "data_type": "string",
+                    "required": true,
+                    "primary": true,
+                    "default": "",
+                    "order": 1
+                },
+                "users": {
+                    "description": "Users to query. Use commas to separate",
+                    "data_type": "string",
+                    "required": true,
+                    "primary": true,
+                    "contains": [
+                        "grr user"
+                    ],
+                    "default": "",
+                    "order": 2
+                },
+                "check_chrome": {
+                    "description": "Check Chrome",
+                    "data_type": "boolean",
+                    "required": false,
+                    "primary": false,
+                    "default": true,
+                    "order": 3
+                },
+                "check_firefox": {
+                    "description": "Check FireFox",
+                    "data_type": "boolean",
+                    "required": false,
+                    "primary": false,
+                    "default": true,
+                    "order": 4
+                },
+                "check_ie": {
+                    "description": "Check IE",
+                    "data_type": "boolean",
+                    "required": false,
+                    "primary": false,
+                    "default": true,
+                    "order": 5
+                }
+            },
+            "output": [
+                {
+                    "data_path": "action_result.status",
+                    "data_type": "string",
+                    "example_values": [
+                        "success"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.browser_cache_regex",
+                    "data_type": "string",
+                    "example_values": [
+                        "/home/var/*"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.check_chrome",
+                    "data_type": "boolean",
+                    "example_values": [
+                        true,
+                        false
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.check_firefox",
+                    "data_type": "boolean",
+                    "example_values": [
+                        true
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.check_ie",
+                    "data_type": "boolean",
+                    "example_values": [
+                        true
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.client_id",
+                    "data_type": "string",
+                    "example_values": [
+                        "C.7459eeb515c40632"
+                    ],
+                    "contains": [
+                        "grr client id"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.users",
+                    "data_type": "string",
+                    "contains": [
+                        "grr user"
+                    ],
+                    "example_values": [
+                        "herman,   deleteme"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.args.@type",
+                    "data_type": "string",
+                    "example_values": [
+                        "type.googleapis.com/CacheGrepArgs"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.args.checkChrome",
+                    "data_type": "boolean",
+                    "example_values": [
+                        true
+                    ],
+                    "column_name": "Check Chrome",
+                    "column_order": 4
+                },
+                {
+                    "data_path": "action_result.data.*.args.checkFirefox",
+                    "data_type": "boolean",
+                    "example_values": [
+                        true
+                    ],
+                    "column_name": "Check FireFox",
+                    "column_order": 3
+                },
+                {
+                    "data_path": "action_result.data.*.args.checkIe",
+                    "data_type": "boolean",
+                    "example_values": [
+                        true
+                    ],
+                    "column_name": "Check IE",
+                    "column_order": 2
+                },
+                {
+                    "data_path": "action_result.data.*.args.dataRegex",
+                    "data_type": "string",
+                    "example_values": [
+                        "/home/var/*"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.args.grepUsers",
+                    "data_type": "string",
+                    "example_values": [
+                        "herman"
+                    ],
+                    "column_name": "Grep Users",
+                    "column_order": 1
+                },
+                {
+                    "data_path": "action_result.data.*.context.clientResources.cpuUsage.systemCpuTime",
+                    "data_type": "numeric",
+                    "example_values": [
+                        0.0858357697725296
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.context.clientResources.cpuUsage.userCpuTime",
+                    "data_type": "numeric",
+                    "example_values": [
+                        1.808138251304626
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.context.createTime",
+                    "data_type": "string",
+                    "example_values": [
+                        "1520632043714372"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.context.creator",
+                    "data_type": "string",
+                    "contains": [
+                        "grr user"
+                    ],
+                    "example_values": [
+                        "admin"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.context.currentState",
+                    "data_type": "string",
+                    "example_values": [
+                        "End"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.context.networkBytesSent",
+                    "data_type": "string",
+                    "example_values": [
+                        "153093"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.context.nextOutboundId",
+                    "data_type": "string",
+                    "example_values": [
+                        "5"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.context.nextProcessedRequest",
+                    "data_type": "string",
+                    "example_values": [
+                        "5"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.context.outstandingRequests",
+                    "data_type": "string",
+                    "example_values": [
+                        "0"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.context.sessionId",
+                    "data_type": "string",
+                    "example_values": [
+                        "aff4:/C.7459eeb515c40632/flows/F:2CCAA0A6"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.context.state",
+                    "data_type": "string",
+                    "example_values": [
+                        "TERMINATED"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.context.userNotified",
+                    "data_type": "boolean",
+                    "example_values": [
+                        true,
+                        false
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.creator",
+                    "data_type": "string",
+                    "contains": [
+                        "grr user"
+                    ],
+                    "example_values": [
+                        "admin"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.flowId",
+                    "data_type": "string",
+                    "example_values": [
+                        "F:EF9BC4AB"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.lastActiveAt",
+                    "data_type": "string",
+                    "example_values": [
+                        "1520632045250433"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.name",
+                    "data_type": "string",
+                    "example_values": [
+                        "CacheGrep"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.runnerArgs.clientId",
+                    "data_type": "string",
+                    "example_values": [
+                        "aff4:/C.7459eeb515c40632"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.runnerArgs.flowName",
+                    "data_type": "string",
+                    "example_values": [
+                        "CacheGrep"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.startedAt",
+                    "data_type": "string",
+                    "example_values": [
+                        "1520632043714372"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.state",
+                    "data_type": "string",
+                    "example_values": [
+                        "TERMINATED"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.stateData.items.*.invalid",
+                    "data_type": "boolean",
+                    "example_values": [
+                        false
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.stateData.items.*.key",
+                    "data_type": "string",
+                    "example_values": [
+                        "all_paths"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.urn",
+                    "data_type": "string",
+                    "example_values": [
+                        "aff4:/C.7459eeb515c40632/flows/F:2CCAA0A6"
+                    ],
+                    "column_name": "Urn",
+                    "column_order": 0
+                },
+                {
+                    "data_path": "action_result.summary.flow_id",
+                    "data_type": "string",
+                    "example_values": [
+                        "F:2CCAA0A6"
+                    ],
+                    "column_name": "Flow Id",
+                    "column_order": 5
+                },
+                {
+                    "data_path": "action_result.message",
+                    "data_type": "string",
+                    "example_values": [
+                        "Successfully retrieved browser cache information"
+                    ]
+                },
+                {
+                    "data_path": "summary.total_objects",
+                    "data_type": "numeric",
+                    "example_values": [
+                        1
+                    ]
+                },
+                {
+                    "data_path": "summary.total_objects_successful",
+                    "data_type": "numeric",
+                    "example_values": [
+                        1
+                    ]
+                }
+            ],
+            "render": {
+                "type": "table"
+            },
+            "versions": "EQ(*)"
+        },
+        {
+            "action": "get hunts",
+            "identifier": "get_hunts",
+            "description": "Retrieve available hunts",
+            "verbose": "",
+            "type": "investigate",
+            "read_only": true,
+            "parameters": {
+                "offset": {
+                    "description": "Starting offset",
+                    "data_type": "numeric",
+                    "required": false,
+                    "primary": false,
+                    "default": "",
+                    "order": 0
+                },
+                "count": {
+                    "description": "Max number of items to fetch",
+                    "data_type": "numeric",
+                    "required": false,
+                    "primary": true,
+                    "default": "",
+                    "order": 1
+                },
+                "created_by": {
+                    "description": "Only return hunts created by a give user. If approved_by or/and description_contains are also supplied, then logical AND is applied to all the criterias. NOTE: this filter can only be used in conjunction with 'active_within' filter (to prevent queries of death)",
+                    "data_type": "string",
+                    "required": false,
+                    "primary": false,
+                    "contains": [
+                        "grr user"
+                    ],
+                    "default": "",
+                    "order": 2
+                },
+                "description_contains": {
+                    "description": "Only return hunts where description contains given substring (matching is case-insensitive).If created_by or/and approved_by are also supplied, then logical AND is applied to all the criterias. NOTE: this filter can only be used in conjunction with 'active_within' filter (to prevent queries of death)",
+                    "data_type": "string",
+                    "required": false,
+                    "primary": false,
+                    "default": "",
+                    "order": 3
+                },
+                "active_within": {
+                    "description": "Only return hunts that were active within given time duration",
+                    "data_type": "string",
+                    "required": false,
+                    "primary": false,
+                    "default": "",
+                    "order": 4
+                }
+            },
+            "output": [
+                {
+                    "data_path": "action_result.status",
+                    "data_type": "string",
+                    "example_values": [
+                        "success"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.active_within",
+                    "data_type": "string",
+                    "example_values": [
+                        "10w"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.count",
+                    "data_type": "numeric",
+                    "example_values": [
+                        5
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.created_by",
+                    "data_type": "string",
+                    "contains": [
+                        "grr user"
+                    ],
+                    "example_values": [
+                        "admin"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.description_contains",
+                    "data_type": "string",
+                    "example_values": [
+                        "hunt"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.offset",
+                    "data_type": "numeric",
+                    "example_values": [
+                        0
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.items.*.clientLimit",
+                    "data_type": "string",
+                    "example_values": [
+                        "100"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.items.*.clientRate",
+                    "data_type": "numeric",
+                    "example_values": [
+                        20.5
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.items.*.clientsWithResultsCount",
+                    "data_type": "string",
+                    "example_values": [
+                        "0"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.items.*.crashLimit",
+                    "data_type": "string",
+                    "example_values": [
+                        "100"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.items.*.created",
+                    "data_type": "string",
+                    "example_values": [
+                        "1519928672035551"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.items.*.creator",
+                    "data_type": "string",
+                    "contains": [
+                        "grr user"
+                    ],
+                    "example_values": [
+                        "admin"
+                    ],
+                    "column_name": "Creator",
+                    "column_order": 3
+                },
+                {
+                    "data_path": "action_result.data.*.items.*.description",
+                    "data_type": "string",
+                    "example_values": [
+                        "Test hunt (copy)"
+                    ],
+                    "column_name": "Description",
+                    "column_order": 4
+                },
+                {
+                    "data_path": "action_result.data.*.items.*.expires",
+                    "data_type": "string",
+                    "example_values": [
+                        "1521138272000000"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.items.*.isRobot",
+                    "data_type": "boolean",
+                    "example_values": [
+                        true
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.items.*.name",
+                    "data_type": "string",
+                    "example_values": [
+                        "GenericHunt"
+                    ],
+                    "column_name": "Name",
+                    "column_order": 0
+                },
+                {
+                    "data_path": "action_result.data.*.items.*.resultsCount",
+                    "data_type": "string",
+                    "example_values": [
+                        "0"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.items.*.state",
+                    "data_type": "string",
+                    "example_values": [
+                        "PAUSED"
+                    ],
+                    "column_name": "State",
+                    "column_order": 2
+                },
+                {
+                    "data_path": "action_result.data.*.items.*.totalCpuUsage",
+                    "data_type": "numeric",
+                    "example_values": [
+                        0
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.items.*.totalNetUsage",
+                    "data_type": "string",
+                    "example_values": [
+                        "0"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.items.*.urn",
+                    "data_type": "string",
+                    "example_values": [
+                        "aff4:/hunts/H:6FA69D4"
+                    ],
+                    "column_name": "Urn",
+                    "column_order": 1
+                },
+                {
+                    "data_path": "action_result.summary.total_hunts",
+                    "data_type": "numeric",
+                    "example_values": [
+                        1
+                    ]
+                },
+                {
+                    "data_path": "action_result.message",
+                    "data_type": "string",
+                    "example_values": [
+                        "Total hunts: 1"
+                    ]
+                },
+                {
+                    "data_path": "summary.total_objects",
+                    "data_type": "numeric",
+                    "example_values": [
+                        1
+                    ]
+                },
+                {
+                    "data_path": "summary.total_objects_successful",
+                    "data_type": "numeric",
+                    "example_values": [
+                        1
+                    ]
+                }
+            ],
+            "render": {
+                "type": "table"
+            },
+            "versions": "EQ(*)"
+        },
+        {
+            "action": "get cron jobs",
+            "identifier": "get_cron_jobs",
+            "description": "Retrieve available cron jobs",
+            "verbose": "",
+            "type": "investigate",
+            "read_only": true,
+            "parameters": {
+                "offset": {
+                    "description": "Starting offset",
+                    "data_type": "numeric",
+                    "required": false,
+                    "primary": false,
+                    "default": "",
+                    "order": 0
+                },
+                "count": {
+                    "description": "Max number of items to fetch",
+                    "data_type": "numeric",
+                    "required": false,
+                    "primary": false,
+                    "default": "",
+                    "order": 1
+                }
+            },
+            "output": [
+                {
+                    "data_path": "action_result.status",
+                    "data_type": "string",
+                    "example_values": [
+                        "success"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.count",
+                    "data_type": "numeric",
+                    "example_values": [
+                        3
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.offset",
+                    "data_type": "numeric",
+                    "example_values": [
+                        0
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.items.*.allowOverruns",
+                    "data_type": "boolean",
+                    "example_values": [
+                        true
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.items.*.description",
+                    "data_type": "string",
+                    "example_values": [
+                        ""
+                    ],
+                    "column_name": "Description",
+                    "column_order": 4
+                },
+                {
+                    "data_path": "action_result.data.*.items.*.flowArgs.@type",
+                    "data_type": "string",
+                    "example_values": [
+                        "type.googleapis.com/EmptyMessage"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.items.*.flowName",
+                    "data_type": "string",
+                    "example_values": [
+                        "CleanCronJobs"
+                    ],
+                    "column_name": "Flow Name",
+                    "column_order": 0
+                },
+                {
+                    "data_path": "action_result.data.*.items.*.flowRunnerArgs.flowName",
+                    "data_type": "string",
+                    "example_values": [
+                        "CleanCronJobs"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.items.*.isFailing",
+                    "data_type": "boolean",
+                    "example_values": [
+                        false
+                    ],
+                    "column_name": "Is Failing",
+                    "column_order": 1
+                },
+                {
+                    "data_path": "action_result.data.*.items.*.lastRunTime",
+                    "data_type": "string",
+                    "example_values": [
+                        "1520972007416756"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.items.*.lifetime",
+                    "data_type": "string",
+                    "example_values": [
+                        "86400"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.items.*.periodicity",
+                    "data_type": "string",
+                    "example_values": [
+                        "86400"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.items.*.state",
+                    "data_type": "string",
+                    "example_values": [
+                        "ENABLED"
+                    ],
+                    "column_name": "State",
+                    "column_order": 2
+                },
+                {
+                    "data_path": "action_result.data.*.items.*.urn",
+                    "data_type": "string",
+                    "example_values": [
+                        "aff4:/cron/CleanCronJobs"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.totalCount",
+                    "data_type": "string",
+                    "example_values": [
+                        "16"
+                    ]
+                },
+                {
+                    "data_path": "action_result.summary",
+                    "data_type": "string",
+                    "example_values": [
+                        ""
+                    ]
+                },
+                {
+                    "data_path": "action_result.message",
+                    "data_type": "string",
+                    "example_values": [
+                        ""
+                    ]
+                },
+                {
+                    "data_path": "summary.total_objects",
+                    "data_type": "numeric",
+                    "example_values": [
+                        1
+                    ]
+                },
+                {
+                    "data_path": "summary.total_objects_successful",
+                    "data_type": "numeric",
+                    "example_values": [
+                        1
+                    ]
+                }
+            ],
+            "render": {
+                "type": "table"
+            },
+            "versions": "EQ(*)"
+        }
+    ]
 }

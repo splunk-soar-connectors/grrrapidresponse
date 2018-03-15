@@ -534,14 +534,28 @@ class GrrConnector(BaseConnector):
             # so just return from here
             return action_result.get_status()
 
-        # Now post process the data,  uncomment code as you deem fit
-
-        # Add the response into the data section
-        action_result.add_data(response)
+        if response.get('context', {}).get('status') == "Found and processed 0 files.":
+            return action_result.set_status(phantom.APP_SUCCESS, "Found and processed 0 files")
 
         # Add a dictionary that is made up of the most important values from data into the summary
         summary = action_result.update_summary({})
         summary['flow_id'] = response.get("flowId", {})
+
+        # make rest call to get results
+        ret_val, response = self._get_flow_result(endpoint + '/{0}'.format(response.get("flowId", {})), action_result)
+
+        if (phantom.is_fail(ret_val)):
+            # the call to the 3rd party device or service failed, action result should contain all the error details
+            # so just return from here
+            return action_result.get_status()
+
+        # Add the response into the data section
+        for item in response.get('items', {}):
+            action_result.add_data(item)
+
+        action_result.add_data({})
+
+        summary['total_count'] = response.get('totalCount', {})
 
         # Return success, no need to set the message, only the status
         # BaseConnector will create a textual message based off of the summary dictionary

@@ -1204,7 +1204,7 @@
                     "data_path": "action_result.parameter.client_id",
                     "data_type": "string",
                     "example_values": [
-                        "C.afe31614575f057a"
+                        "C.7459eeb515c40632"
                     ],
                     "contains": [
                         "grr client id"
@@ -1221,45 +1221,14 @@
                     ]
                 },
                 {
-                    "data_path": "action_result.data.*.args.@type",
-                    "data_type": "string",
-                    "example_values": [
-                        "type.googleapis.com/FileFinderArgs"
-                    ]
-                },
-                {
-                    "data_path": "action_result.data.*.args.paths",
-                    "data_type": "string",
-                    "example_values": [
-                        "/home"
-                    ]
-                },
-                {
-                    "data_path": "action_result.data.*.creator",
-                    "data_type": "string",
-                    "contains": [
-                        "grr user"
-                    ],
-                    "example_values": [
-                        "admin"
-                    ]
-                },
-                {
-                    "data_path": "action_result.data.*.flowId",
-                    "data_type": "string",
-                    "example_values": [
-                        "F:CAF8D598"
-                    ]
-                },
-                {
-                    "data_path": "action_result.data.*.items.*.payload.@type",
+                    "data_path": "action_result.data.*.payload.@type",
                     "data_type": "string",
                     "example_values": [
                         "type.googleapis.com/FileFinderResult"
                     ]
                 },
                 {
-                    "data_path": "action_result.data.*.items.*.payload.statEntry.pathspec.path",
+                    "data_path": "action_result.data.*.payload.statEntry.pathspec.path",
                     "data_type": "string",
                     "example_values": [
                         "/home"
@@ -1268,209 +1237,142 @@
                     "column_order": 0
                 },
                 {
-                    "data_path": "action_result.data.*.items.*.payload.statEntry.pathspec.pathOptions",
+                    "data_path": "action_result.data.*.payload.statEntry.pathspec.pathOptions",
                     "data_type": "string",
                     "example_values": [
                         "CASE_LITERAL"
-                    ],
-                    "column_name": "Path Options",
-                    "column_order": 1
+                    ]
                 },
                 {
-                    "data_path": "action_result.data.*.items.*.payload.statEntry.pathspec.pathtype",
+                    "data_path": "action_result.data.*.payload.statEntry.pathspec.pathtype",
                     "data_type": "string",
                     "example_values": [
                         "OS"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.payload.statEntry.stAtime",
+                    "data_type": "string",
+                    "example_values": [
+                        "1520029482"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.payload.statEntry.stBlksize",
+                    "data_type": "numeric",
+                    "example_values": [
+                        1024
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.payload.statEntry.stBlocks",
+                    "data_type": "numeric",
+                    "example_values": [
+                        2
                     ],
-                    "column_name": "Path Type",
+                    "column_name": "St Blocks",
+                    "column_order": 3
+                },
+                {
+                    "data_path": "action_result.data.*.payload.statEntry.stCtime",
+                    "data_type": "string",
+                    "example_values": [
+                        "1520029482"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.payload.statEntry.stDev",
+                    "data_type": "numeric",
+                    "example_values": [
+                        738197506
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.payload.statEntry.stGid",
+                    "data_type": "numeric",
+                    "example_values": [
+                        0
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.payload.statEntry.stIno",
+                    "data_type": "numeric",
+                    "example_values": [
+                        5
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.payload.statEntry.stMode",
+                    "data_type": "string",
+                    "example_values": [
+                        "16749"
+                    ],
+                    "column_name": "St Mode",
+                    "column_order": 1
+                },
+                {
+                    "data_path": "action_result.data.*.payload.statEntry.stMtime",
+                    "data_type": "string",
+                    "example_values": [
+                        "1521075375"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.payload.statEntry.stNlink",
+                    "data_type": "numeric",
+                    "example_values": [
+                        2
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.payload.statEntry.stRdev",
+                    "data_type": "numeric",
+                    "example_values": [
+                        0
+                    ],
+                    "column_name": "St Dev",
                     "column_order": 2
                 },
                 {
-                    "data_path": "action_result.data.*.items.*.payload.statEntry.stAtime",
-                    "data_type": "string",
-                    "example_values": [
-                        "1520304508"
-                    ]
-                },
-                {
-                    "data_path": "action_result.data.*.items.*.payload.statEntry.stBlksize",
-                    "data_type": "numeric",
-                    "example_values": [
-                        4096
-                    ]
-                },
-                {
-                    "data_path": "action_result.data.*.items.*.payload.statEntry.stBlocks",
-                    "data_type": "numeric",
-                    "example_values": [
-                        8
-                    ]
-                },
-                {
-                    "data_path": "action_result.data.*.items.*.payload.statEntry.stCtime",
-                    "data_type": "string",
-                    "example_values": [
-                        "1470708903"
-                    ]
-                },
-                {
-                    "data_path": "action_result.data.*.items.*.payload.statEntry.stDev",
-                    "data_type": "numeric",
-                    "example_values": [
-                        64512
-                    ]
-                },
-                {
-                    "data_path": "action_result.data.*.items.*.payload.statEntry.stGid",
-                    "data_type": "numeric",
-                    "example_values": [
-                        0
-                    ]
-                },
-                {
-                    "data_path": "action_result.data.*.items.*.payload.statEntry.stIno",
-                    "data_type": "numeric",
-                    "example_values": [
-                        9961473
-                    ]
-                },
-                {
-                    "data_path": "action_result.data.*.items.*.payload.statEntry.stMode",
-                    "data_type": "string",
-                    "example_values": [
-                        "16877"
-                    ]
-                },
-                {
-                    "data_path": "action_result.data.*.items.*.payload.statEntry.stMtime",
-                    "data_type": "string",
-                    "example_values": [
-                        "1470708903"
-                    ]
-                },
-                {
-                    "data_path": "action_result.data.*.items.*.payload.statEntry.stNlink",
-                    "data_type": "numeric",
-                    "example_values": [
-                        3
-                    ]
-                },
-                {
-                    "data_path": "action_result.data.*.items.*.payload.statEntry.stRdev",
-                    "data_type": "numeric",
-                    "example_values": [
-                        0
-                    ]
-                },
-                {
-                    "data_path": "action_result.data.*.items.*.payload.statEntry.stSize",
-                    "data_type": "string",
-                    "example_values": [
-                        "4096"
-                    ]
-                },
-                {
-                    "data_path": "action_result.data.*.items.*.payload.statEntry.stUid",
-                    "data_type": "numeric",
-                    "example_values": [
-                        0
-                    ]
-                },
-                {
-                    "data_path": "action_result.data.*.items.*.payloadType",
-                    "data_type": "string",
-                    "example_values": [
-                        "FileFinderResult"
-                    ]
-                },
-                {
-                    "data_path": "action_result.data.*.items.*.timestamp",
-                    "data_type": "string",
-                    "example_values": [
-                        "1520304512797149"
-                    ]
-                },
-                {
-                    "data_path": "action_result.data.*.lastActiveAt",
-                    "data_type": "string",
-                    "example_values": [
-                        "1520304473971430"
-                    ]
-                },
-                {
-                    "data_path": "action_result.data.*.name",
-                    "data_type": "string",
-                    "example_values": [
-                        "FileFinder"
-                    ]
-                },
-                {
-                    "data_path": "action_result.data.*.runnerArgs.clientId",
-                    "data_type": "string",
-                    "example_values": [
-                        "aff4:/C.afe31614575f057a"
-                    ],
-                    "contains": [
-                        "grr client id"
-                    ]
-                },
-                {
-                    "data_path": "action_result.data.*.runnerArgs.flowName",
-                    "data_type": "string",
-                    "example_values": [
-                        "FileFinder"
-                    ]
-                },
-                {
-                    "data_path": "action_result.data.*.runnerArgs.notifyToUser",
-                    "data_type": "boolean",
-                    "example_values": [
-                        true
-                    ]
-                },
-                {
-                    "data_path": "action_result.data.*.runnerArgs.priority",
-                    "data_type": "string",
-                    "example_values": [
-                        "HIGH_PRIORITY"
-                    ]
-                },
-                {
-                    "data_path": "action_result.data.*.startedAt",
-                    "data_type": "string",
-                    "example_values": [
-                        "1520304473878261"
-                    ]
-                },
-                {
-                    "data_path": "action_result.data.*.state",
-                    "data_type": "string",
-                    "example_values": [
-                        "RUNNING"
-                    ]
-                },
-                {
-                    "data_path": "action_result.data.*.totalCount",
+                    "data_path": "action_result.data.*.payload.statEntry.stSize",
                     "data_type": "string",
                     "example_values": [
                         "1"
                     ]
                 },
                 {
-                    "data_path": "action_result.data.*.urn",
-                    "data_type": "string",
+                    "data_path": "action_result.data.*.payload.statEntry.stUid",
+                    "data_type": "numeric",
                     "example_values": [
-                        "aff4:/C.afe31614575f057a/flows/F:CAF8D598"
+                        0
                     ]
                 },
                 {
-                    "data_path": "action_result.summary.client_id",
+                    "data_path": "action_result.data.*.payloadType",
                     "data_type": "string",
                     "example_values": [
-                        "C.afe31614575f057a"
-                    ],
-                    "contains": [
-                        "grr client id"
+                        "FileFinderResult"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.timestamp",
+                    "data_type": "string",
+                    "example_values": [
+                        "1521077728657985"
+                    ]
+                },
+                {
+                    "data_path": "action_result.summary.flow_id",
+                    "data_type": "string",
+                    "example_values": [
+                        "F:5EBA859A"
+                    ]
+                },
+                {
+                    "data_path": "action_result.summary.total_count",
+                    "data_type": "string",
+                    "example_values": [
+                        "1"
                     ]
                 },
                 {

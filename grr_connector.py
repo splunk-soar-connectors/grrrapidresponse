@@ -177,9 +177,7 @@ class GrrConnector(BaseConnector):
 
         ret_val, resp_json = self._verify_response(r2, action_result)
         if (phantom.is_fail(ret_val)):
-            return action_result.get_status()
-
-        # action_result.add_data(resp_json)
+            return action_result.get_status(), None
 
         if 'message' in resp_json:
             return action_result.set_status(phantom.APP_ERROR, "Error starting flow"), None
@@ -188,7 +186,7 @@ class GrrConnector(BaseConnector):
         flow_id = resp_json['flowId']
         ret_val = self._wait_for_flow(url + "/{0}?strip_type_info=1".format(flow_id), s, action_result)
         if (phantom.is_fail(ret_val)):
-            return action_result.get_status()
+            return action_result.get_status(), None
 
         try:
             r = s.get(url + "/{0}".format(flow_id))
@@ -197,7 +195,7 @@ class GrrConnector(BaseConnector):
 
         ret_val, resp_json = self._verify_response(r, action_result)
         if (phantom.is_fail(ret_val)):
-            return action_result.get_status()
+            return action_result.get_status(), None
 
         return phantom.APP_SUCCESS, resp_json
 
@@ -205,7 +203,7 @@ class GrrConnector(BaseConnector):
 
         self.save_progress("Verifying response")
 
-        if (r.status_code < 200 and r.status_code > 399):
+        if not r:
             return action_result.set_status(phantom.APP_ERROR, r.text), None
 
         try:
@@ -223,7 +221,7 @@ class GrrConnector(BaseConnector):
             try:
                 r = s.get(address)
             except Exception as e:
-                return action_result.set_status(phantom.APP_ERROR, GRR_ERR_SERVER_CONNECTION, e), None
+                return action_result.set_status(phantom.APP_ERROR, GRR_ERR_SERVER_CONNECTION, e)
             ret_val, resp_json = self._verify_response(r, action_result)
             if (phantom.is_fail(ret_val)):
                 return action_result.get_status()
@@ -243,7 +241,7 @@ class GrrConnector(BaseConnector):
         ret_val, response = self._make_rest_call(result_endpoint, action_result)
 
         if (phantom.is_fail(ret_val)):
-            return action_result.get_status()
+            return action_result.get_status(), None
 
         return phantom.APP_SUCCESS, response
 
@@ -301,13 +299,12 @@ class GrrConnector(BaseConnector):
         # Now post process the data,  uncomment code as you deem fit
 
         # Add the response into the data section
-        action_result.add_data(response)
-
-        action_result.add_data({})
+        for item in response.get('items', {}):
+            action_result.add_data(item)
 
         # Return success, no need to set the message, only the status
         # BaseConnector will create a textual message based off of the summary dictionary
-        return action_result.set_status(phantom.APP_SUCCESS)
+        return action_result.set_status(phantom.APP_SUCCESS, "Successfully retrieved cron jobs")
 
     def _handle_list_endpoints(self, param):
 
@@ -333,8 +330,6 @@ class GrrConnector(BaseConnector):
         # Add the response into the data section
         for item in response.get('items', {}):
             action_result.add_data(item)
-
-        action_result.add_data({})
 
         # Add a dictionary that is made up of the most important values from data into the summary
         summary = action_result.update_summary({})
@@ -439,9 +434,8 @@ class GrrConnector(BaseConnector):
         # Now post process the data,  uncomment code as you deem fit
 
         # Add the response into the data section
-        action_result.add_data(response)
-
-        action_result.add_data({})
+        for item in response.get('items', {}):
+            action_result.add_data(item)
 
         # Add a dictionary that is made up of the most important values from data into the summary
         summary = action_result.update_summary({})

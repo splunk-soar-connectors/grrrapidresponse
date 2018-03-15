@@ -1877,42 +1877,42 @@
                     ]
                 },
                 {
-                    "data_path": "action_result.data.*.items.*.clientLimit",
+                    "data_path": "action_result.data.*.clientLimit",
                     "data_type": "string",
                     "example_values": [
                         "100"
                     ]
                 },
                 {
-                    "data_path": "action_result.data.*.items.*.clientRate",
+                    "data_path": "action_result.data.*.clientRate",
                     "data_type": "numeric",
                     "example_values": [
                         20.5
                     ]
                 },
                 {
-                    "data_path": "action_result.data.*.items.*.clientsWithResultsCount",
+                    "data_path": "action_result.data.*.clientsWithResultsCount",
                     "data_type": "string",
                     "example_values": [
                         "0"
                     ]
                 },
                 {
-                    "data_path": "action_result.data.*.items.*.crashLimit",
+                    "data_path": "action_result.data.*.crashLimit",
                     "data_type": "string",
                     "example_values": [
                         "100"
                     ]
                 },
                 {
-                    "data_path": "action_result.data.*.items.*.created",
+                    "data_path": "action_result.data.*.created",
                     "data_type": "string",
                     "example_values": [
                         "1519928672035551"
                     ]
                 },
                 {
-                    "data_path": "action_result.data.*.items.*.creator",
+                    "data_path": "action_result.data.*.creator",
                     "data_type": "string",
                     "contains": [
                         "grr user"
@@ -1924,7 +1924,7 @@
                     "column_order": 3
                 },
                 {
-                    "data_path": "action_result.data.*.items.*.description",
+                    "data_path": "action_result.data.*.description",
                     "data_type": "string",
                     "example_values": [
                         "Test hunt (copy)"
@@ -1933,21 +1933,21 @@
                     "column_order": 4
                 },
                 {
-                    "data_path": "action_result.data.*.items.*.expires",
+                    "data_path": "action_result.data.*.expires",
                     "data_type": "string",
                     "example_values": [
                         "1521138272000000"
                     ]
                 },
                 {
-                    "data_path": "action_result.data.*.items.*.isRobot",
+                    "data_path": "action_result.data.*.isRobot",
                     "data_type": "boolean",
                     "example_values": [
                         true
                     ]
                 },
                 {
-                    "data_path": "action_result.data.*.items.*.name",
+                    "data_path": "action_result.data.*.name",
                     "data_type": "string",
                     "example_values": [
                         "GenericHunt"
@@ -1956,14 +1956,14 @@
                     "column_order": 0
                 },
                 {
-                    "data_path": "action_result.data.*.items.*.resultsCount",
+                    "data_path": "action_result.data.*.resultsCount",
                     "data_type": "string",
                     "example_values": [
                         "0"
                     ]
                 },
                 {
-                    "data_path": "action_result.data.*.items.*.state",
+                    "data_path": "action_result.data.*.state",
                     "data_type": "string",
                     "example_values": [
                         "PAUSED"
@@ -1972,21 +1972,21 @@
                     "column_order": 2
                 },
                 {
-                    "data_path": "action_result.data.*.items.*.totalCpuUsage",
+                    "data_path": "action_result.data.*.totalCpuUsage",
                     "data_type": "numeric",
                     "example_values": [
                         0
                     ]
                 },
                 {
-                    "data_path": "action_result.data.*.items.*.totalNetUsage",
+                    "data_path": "action_result.data.*.totalNetUsage",
                     "data_type": "string",
                     "example_values": [
                         "0"
                     ]
                 },
                 {
-                    "data_path": "action_result.data.*.items.*.urn",
+                    "data_path": "action_result.data.*.urn",
                     "data_type": "string",
                     "example_values": [
                         "aff4:/hunts/H:6FA69D4"
@@ -2076,14 +2076,14 @@
                     ]
                 },
                 {
-                    "data_path": "action_result.data.*.items.*.allowOverruns",
+                    "data_path": "action_result.data.*.allowOverruns",
                     "data_type": "boolean",
                     "example_values": [
                         true
                     ]
                 },
                 {
-                    "data_path": "action_result.data.*.items.*.description",
+                    "data_path": "action_result.data.*.description",
                     "data_type": "string",
                     "example_values": [
                         ""
@@ -2092,14 +2092,14 @@
                     "column_order": 4
                 },
                 {
-                    "data_path": "action_result.data.*.items.*.flowArgs.@type",
+                    "data_path": "action_result.data.*.flowArgs.@type",
                     "data_type": "string",
                     "example_values": [
                         "type.googleapis.com/EmptyMessage"
                     ]
                 },
                 {
-                    "data_path": "action_result.data.*.items.*.flowName",
+                    "data_path": "action_result.data.*.flowName",
                     "data_type": "string",
                     "example_values": [
                         "CleanCronJobs"
@@ -2108,14 +2108,14 @@
                     "column_order": 0
                 },
                 {
-                    "data_path": "action_result.data.*.items.*.flowRunnerArgs.flowName",
+                    "data_path": "action_result.data.*.flowRunnerArgs.flowName",
                     "data_type": "string",
                     "example_values": [
                         "CleanCronJobs"
                     ]
                 },
                 {
-                    "data_path": "action_result.data.*.items.*.isFailing",
+                    "data_path": "action_result.data.*.isFailing",
                     "data_type": "boolean",
                     "example_values": [
                         false
@@ -2124,28 +2124,28 @@
                     "column_order": 1
                 },
                 {
-                    "data_path": "action_result.data.*.items.*.lastRunTime",
+                    "data_path": "action_result.data.*.lastRunTime",
                     "data_type": "string",
                     "example_values": [
                         "1520972007416756"
                     ]
                 },
                 {
-                    "data_path": "action_result.data.*.items.*.lifetime",
+                    "data_path": "action_result.data.*.lifetime",
                     "data_type": "string",
                     "example_values": [
                         "86400"
                     ]
                 },
                 {
-                    "data_path": "action_result.data.*.items.*.periodicity",
+                    "data_path": "action_result.data.*.periodicity",
                     "data_type": "string",
                     "example_values": [
                         "86400"
                     ]
                 },
                 {
-                    "data_path": "action_result.data.*.items.*.state",
+                    "data_path": "action_result.data.*.state",
                     "data_type": "string",
                     "example_values": [
                         "ENABLED"
@@ -2154,7 +2154,7 @@
                     "column_order": 2
                 },
                 {
-                    "data_path": "action_result.data.*.items.*.urn",
+                    "data_path": "action_result.data.*.urn",
                     "data_type": "string",
                     "example_values": [
                         "aff4:/cron/CleanCronJobs"

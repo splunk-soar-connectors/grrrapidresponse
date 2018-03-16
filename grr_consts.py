@@ -1,7 +1,7 @@
 # --
-# File: cylance/cylance_consts.py
+# File: grr_consts.py
 #
-# Copyright (c) Phantom Cyber Corporation, 2016
+# Copyright (c) Phantom Cyber Corporation, 2018
 #
 # This unpublished material is proprietary to Phantom Cyber.
 # All rights reserved. The methods and
@@ -22,3 +22,5 @@ GRR_JSON_PASSWORD = "password"
 GRR_JSON_SERVER = "server"
 GRR_JSON_CLIENT_ID = "client_id"
 GRR_JSON_FILE_PATH = "file_path"
+GRR_JSON_BROWSER_CACHE_REGEX = "browser_cache_regex"
+GRR_JSON_USERS = "users"

@@ -469,9 +469,6 @@
                     "data_type": "string",
                     "example_values": [
                         "deleteme"
-                    ],
-                    "contains": [
-                        "grr user"
                     ]
                 },
                 {
@@ -606,9 +603,6 @@
                     "data_type": "string",
                     "example_values": [
                         "deleteme"
-                    ],
-                    "contains": [
-                        "user name"
                     ]
                 },
                 {

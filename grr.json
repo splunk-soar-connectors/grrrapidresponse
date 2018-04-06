@@ -1797,7 +1797,7 @@
                     "order": 1
                 },
                 "created_by": {
-                    "description": "Only return hunts created by a give user. If approved_by or/and description_contains are also supplied, then logical AND is applied to all the criterias. NOTE: this filter can only be used in conjunction with 'active_within' filter (to prevent queries of death)",
+                    "description": "Only return hunts created by a given user. If approved_by or/and description_contains are also supplied, then logical AND is applied to all the criteria. NOTE: this filter can only be used in conjunction with 'active_within' filter (to prevent queries of death)",
                     "data_type": "string",
                     "required": false,
                     "primary": false,
@@ -1808,7 +1808,7 @@
                     "order": 2
                 },
                 "description_contains": {
-                    "description": "Only return hunts where description contains given substring (matching is case-insensitive).If created_by or/and approved_by are also supplied, then logical AND is applied to all the criterias. NOTE: this filter can only be used in conjunction with 'active_within' filter (to prevent queries of death)",
+                    "description": "Only return hunts where description contains given substring (matching is case-insensitive). If created_by or/and approved_by are also supplied, then logical AND is applied to all the criteria. NOTE: this filter can only be used in conjunction with 'active_within' filter (to prevent queries of death)",
                     "data_type": "string",
                     "required": false,
                     "primary": false,

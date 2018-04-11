@@ -477,7 +477,7 @@ class GrrConnector(BaseConnector):
 
         # Add a dictionary that is made up of the most important values from data into the summary
         summary = action_result.update_summary({})
-        summary['success'] = True
+        summary['num_users'] = len(response['users'])
 
         # Return success, no need to set the message, only the status
         # BaseConnector will create a textual message based off of the summary dictionary

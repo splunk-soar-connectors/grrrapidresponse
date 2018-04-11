@@ -10,8 +10,8 @@
     "product_version_regex": ".*",
     "publisher": "Phantom",
     "license": "Copyright (c) Phantom Cyber Corporation, 2018",
-    "app_version": "1.0.0",
-    "utctime_updated": "2018-02-15T04:05:01.869199Z",
+    "app_version": "1.0.6",
+    "utctime_updated": "2018-04-06T21:58:02.000000Z",
     "package_name": "phantom_grr",
     "main_module": "grr_connector.pyc",
     "min_phantom_version": "3.0.284",
@@ -1812,7 +1812,7 @@
                     "order": 1
                 },
                 "created_by": {
-                    "description": "Only return hunts created by a give user. If approved_by or/and description_contains are also supplied, then logical AND is applied to all the criterias. NOTE: this filter can only be used in conjunction with 'active_within' filter (to prevent queries of death)",
+                    "description": "Only return hunts created by a given user. If approved_by or/and description_contains are also supplied, then logical AND is applied to all the criteria. NOTE: this filter can only be used in conjunction with 'active_within' filter (to prevent queries of death)",
                     "data_type": "string",
                     "required": false,
                     "primary": false,
@@ -1823,7 +1823,7 @@
                     "order": 2
                 },
                 "description_contains": {
-                    "description": "Only return hunts where description contains given substring (matching is case-insensitive).If created_by or/and approved_by are also supplied, then logical AND is applied to all the criterias. NOTE: this filter can only be used in conjunction with 'active_within' filter (to prevent queries of death)",
+                    "description": "Only return hunts where description contains given substring (matching is case-insensitive). If created_by or/and approved_by are also supplied, then logical AND is applied to all the criteria. NOTE: this filter can only be used in conjunction with 'active_within' filter (to prevent queries of death)",
                     "data_type": "string",
                     "required": false,
                     "primary": false,

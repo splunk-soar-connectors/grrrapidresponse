@@ -709,7 +709,7 @@
                     "data_path": "action_result.parameter.client_id",
                     "data_type": "string",
                     "example_values": [
-                        "C.afe31614575f057a"
+                        "C.7459eeb515c40632"
                     ],
                     "contains": [
                         "grr client id"
@@ -719,7 +719,7 @@
                     "data_path": "action_result.data.*.age",
                     "data_type": "string",
                     "example_values": [
-                        "1519929380668128"
+                        "1523100856318869"
                     ]
                 },
                 {
@@ -758,7 +758,7 @@
                     "data_path": "action_result.data.*.clientId",
                     "data_type": "string",
                     "example_values": [
-                        "C.afe31614575f057a"
+                        "C.7459eeb515c40632"
                     ],
                     "contains": [
                         "grr client id"
@@ -856,7 +856,8 @@
                     "data_path": "action_result.data.*.interfaces.*.addresses.*.addressType",
                     "data_type": "string",
                     "example_values": [
-                        "INET"
+                        "INET",
+                        "INET6"
                     ]
                 },
                 {
@@ -1055,7 +1056,7 @@
                     "data_path": "action_result.data.*.urn",
                     "data_type": "string",
                     "example_values": [
-                        "aff4:/C.afe31614575f057a"
+                        "aff4:/C.7459eeb515c40632"
                     ]
                 },
                 {
@@ -1135,7 +1136,7 @@
                     "data_path": "action_result.message",
                     "data_type": "string",
                     "example_values": [
-                        "Success: True"
+                        "Num users: 2"
                     ]
                 },
                 {
@@ -1150,6 +1151,20 @@
                     "data_type": "numeric",
                     "example_values": [
                         1
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.lastCrashAt",
+                    "data_type": "string",
+                    "example_values": [
+                        "1520030649377194"
+                    ]
+                },
+                {
+                    "data_path": "action_result.summary.num_users",
+                    "data_type": "numeric",
+                    "example_values": [
+                        2
                     ]
                 }
             ],

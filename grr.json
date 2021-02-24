@@ -9,19 +9,19 @@
     "product_name": "GRR Rapid Response",
     "product_version_regex": ".*",
     "publisher": "Phantom",
-    "license": "Copyright (c) Phantom Cyber Corporation, 2018",
-    "app_version": "1.0.9",
+    "license": "Copyright (c) 2018-2021 Splunk Inc.",
+    "app_version": "2.0.0",
     "utctime_updated": "2018-12-07T01:23:57.000000Z",
     "package_name": "phantom_grr",
-    "main_module": "grr_connector.pyc",
-    "min_phantom_version": "3.0.284",
+    "main_module": "grr_connector.py",
+    "min_phantom_version": "4.9.39220",
     "app_wizard_version": "1.0.0",
+    "python_version": "3",
     "configuration": {
         "username": {
             "description": "Username",
             "data_type": "string",
             "required": true,
-            "default": "",
             "order": 0
         },
         "password": {
@@ -34,7 +34,6 @@
             "description": "GRR Server",
             "data_type": "string",
             "required": true,
-            "default": "",
             "order": 2
         }
     },
@@ -43,7 +42,6 @@
             "action": "test connectivity",
             "identifier": "test_connectivity",
             "description": "Validate the asset configuration for connectivity using supplied configuration",
-            "verbose": "",
             "type": "test",
             "read_only": true,
             "parameters": {},
@@ -54,7 +52,6 @@
             "action": "list connections",
             "identifier": "list_connections",
             "description": "List all the connections configured on the device",
-            "verbose": "",
             "type": "investigate",
             "read_only": true,
             "parameters": {
@@ -74,7 +71,8 @@
                     "data_path": "action_result.status",
                     "data_type": "string",
                     "example_values": [
-                        "success"
+                        "success",
+                        "failed"
                     ]
                 },
                 {
@@ -140,7 +138,7 @@
                     "data_path": "action_result.data.*.payload.remoteAddress.ip",
                     "data_type": "string",
                     "example_values": [
-                        "17.249.28.93"
+                        "22.22.22.22"
                     ],
                     "contains": [
                         "ip"
@@ -234,7 +232,6 @@
             "action": "list endpoints",
             "identifier": "list_endpoints",
             "description": "List all the endpoints/sensors configured on the device",
-            "verbose": "",
             "type": "investigate",
             "read_only": true,
             "parameters": {},
@@ -243,7 +240,8 @@
                     "data_path": "action_result.status",
                     "data_type": "string",
                     "example_values": [
-                        "success"
+                        "success",
+                        "failed"
                     ]
                 },
                 {
@@ -325,7 +323,7 @@
                     "data_path": "action_result.data.*.hardwareInfo.biosVendor",
                     "data_type": "string",
                     "example_values": [
-                        "Phoenix Technologies LTD"
+                        "Technologies LTD"
                     ]
                 },
                 {
@@ -353,7 +351,7 @@
                     "data_path": "action_result.data.*.hardwareInfo.systemManufacturer",
                     "data_type": "string",
                     "example_values": [
-                        "VMware"
+                        "Manufacturer"
                     ]
                 },
                 {
@@ -677,7 +675,6 @@
         {
             "action": "get system info",
             "description": "Get information about an endpoint",
-            "verbose": "",
             "type": "investigate",
             "identifier": "get_system_info",
             "read_only": true,
@@ -702,7 +699,8 @@
                     "data_path": "action_result.status",
                     "data_type": "string",
                     "example_values": [
-                        "success"
+                        "success",
+                        "failed"
                     ]
                 },
                 {
@@ -763,7 +761,7 @@
                     "contains": [
                         "grr client id"
                     ],
-                    "column_name": "Client Id",
+                    "column_name": "Client ID",
                     "column_order": 2
                 },
                 {
@@ -800,7 +798,7 @@
                     "data_path": "action_result.data.*.hardwareInfo.biosVendor",
                     "data_type": "string",
                     "example_values": [
-                        "Phoenix Technologies LTD"
+                        "Technologies LTD"
                     ]
                 },
                 {
@@ -814,7 +812,7 @@
                     "data_path": "action_result.data.*.hardwareInfo.serialNumber",
                     "data_type": "string",
                     "example_values": [
-                        "VMware-56 4d 9f c8 45 f6 ee d0-96 1a ec da 13 1e 13 66"
+                        "56 4d 9f c8 45 f6 ee d0-96 1a ec da 13 1e 13 66"
                     ]
                 },
                 {
@@ -828,14 +826,14 @@
                     "data_path": "action_result.data.*.hardwareInfo.systemManufacturer",
                     "data_type": "string",
                     "example_values": [
-                        "VMware"
+                        "Manufacturer"
                     ]
                 },
                 {
                     "data_path": "action_result.data.*.hardwareInfo.systemProductName",
                     "data_type": "string",
                     "example_values": [
-                        "VMware Virtual Platform"
+                        "Virtual Platform"
                     ]
                 },
                 {
@@ -968,6 +966,13 @@
                     "data_type": "string",
                     "example_values": [
                         "1520382854151576"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.lastCrashAt",
+                    "data_type": "string",
+                    "example_values": [
+                        "1520030649377194"
                     ]
                 },
                 {
@@ -1126,6 +1131,13 @@
                     ]
                 },
                 {
+                    "data_path": "action_result.summary.num_users",
+                    "data_type": "numeric",
+                    "example_values": [
+                        2
+                    ]
+                },
+                {
                     "data_path": "action_result.summary.success",
                     "data_type": "boolean",
                     "example_values": [
@@ -1152,20 +1164,6 @@
                     "example_values": [
                         1
                     ]
-                },
-                {
-                    "data_path": "action_result.data.*.lastCrashAt",
-                    "data_type": "string",
-                    "example_values": [
-                        "1520030649377194"
-                    ]
-                },
-                {
-                    "data_path": "action_result.summary.num_users",
-                    "data_type": "numeric",
-                    "example_values": [
-                        2
-                    ]
                 }
             ],
             "versions": "EQ(*)"
@@ -1174,7 +1172,6 @@
             "action": "get file info",
             "identifier": "get_file_info",
             "description": "Look for files matching given criteria",
-            "verbose": "",
             "type": "investigate",
             "read_only": true,
             "parameters": {
@@ -1182,12 +1179,11 @@
                     "description": "Client ID",
                     "data_type": "string",
                     "required": true,
-                    "primary": false,
                     "contains": [
                         "grr client id"
                     ],
-                    "default": "",
-                    "order": 0
+                    "order": 0,
+                    "primary": true
                 },
                 "file_path": {
                     "description": "File Path",
@@ -1197,7 +1193,6 @@
                     "contains": [
                         "grr file path"
                     ],
-                    "default": "",
                     "order": 1
                 }
             },
@@ -1206,7 +1201,8 @@
                     "data_path": "action_result.status",
                     "data_type": "string",
                     "example_values": [
-                        "success"
+                        "success",
+                        "failed"
                     ]
                 },
                 {
@@ -1415,7 +1411,6 @@
             "action": "get browser cache",
             "identifier": "get_browser_cache",
             "description": "Retrieve matching regex in a client's browser cache",
-            "verbose": "",
             "type": "investigate",
             "read_only": true,
             "parameters": {
@@ -1427,15 +1422,12 @@
                     "contains": [
                         "grr client id"
                     ],
-                    "default": "",
                     "order": 0
                 },
                 "browser_cache_regex": {
                     "description": "Regex to look for",
                     "data_type": "string",
                     "required": true,
-                    "primary": true,
-                    "default": "",
                     "order": 1
                 },
                 "users": {
@@ -1446,30 +1438,23 @@
                     "contains": [
                         "grr user"
                     ],
-                    "default": "",
                     "order": 2
                 },
                 "check_chrome": {
                     "description": "Check Chrome",
                     "data_type": "boolean",
-                    "required": false,
-                    "primary": false,
                     "default": true,
                     "order": 3
                 },
                 "check_firefox": {
                     "description": "Check FireFox",
                     "data_type": "boolean",
-                    "required": false,
-                    "primary": false,
                     "default": true,
                     "order": 4
                 },
                 "check_ie": {
                     "description": "Check IE",
                     "data_type": "boolean",
-                    "required": false,
-                    "primary": false,
                     "default": true,
                     "order": 5
                 }
@@ -1479,7 +1464,8 @@
                     "data_path": "action_result.status",
                     "data_type": "string",
                     "example_values": [
-                        "success"
+                        "success",
+                        "failed"
                     ]
                 },
                 {
@@ -1553,7 +1539,7 @@
                     "example_values": [
                         true
                     ],
-                    "column_name": "Check FireFox",
+                    "column_name": "Check Firefox",
                     "column_order": 3
                 },
                 {
@@ -1757,7 +1743,7 @@
                     "example_values": [
                         "F:2CCAA0A6"
                     ],
-                    "column_name": "Flow Id",
+                    "column_name": "Flow ID",
                     "column_order": 5
                 },
                 {
@@ -1791,51 +1777,36 @@
             "action": "get hunts",
             "identifier": "get_hunts",
             "description": "Retrieve available hunts",
-            "verbose": "",
             "type": "investigate",
             "read_only": true,
             "parameters": {
                 "offset": {
                     "description": "Starting offset",
                     "data_type": "numeric",
-                    "required": false,
-                    "primary": false,
-                    "default": "",
                     "order": 0
                 },
                 "count": {
                     "description": "Max number of items to fetch",
                     "data_type": "numeric",
-                    "required": false,
-                    "primary": true,
-                    "default": "",
                     "order": 1
                 },
                 "created_by": {
                     "description": "Only return hunts created by a given user. If approved_by or/and description_contains are also supplied, then logical AND is applied to all the criteria. NOTE: this filter can only be used in conjunction with 'active_within' filter (to prevent queries of death)",
                     "data_type": "string",
-                    "required": false,
-                    "primary": false,
                     "contains": [
                         "grr user"
                     ],
-                    "default": "",
-                    "order": 2
+                    "order": 2,
+                    "primary": true
                 },
                 "description_contains": {
                     "description": "Only return hunts where description contains given substring (matching is case-insensitive). If created_by or/and approved_by are also supplied, then logical AND is applied to all the criteria. NOTE: this filter can only be used in conjunction with 'active_within' filter (to prevent queries of death)",
                     "data_type": "string",
-                    "required": false,
-                    "primary": false,
-                    "default": "",
                     "order": 3
                 },
                 "active_within": {
                     "description": "Only return hunts that were active within given time duration",
                     "data_type": "string",
-                    "required": false,
-                    "primary": false,
-                    "default": "",
                     "order": 4
                 }
             },
@@ -1844,7 +1815,8 @@
                     "data_path": "action_result.status",
                     "data_type": "string",
                     "example_values": [
-                        "success"
+                        "success",
+                        "failed"
                     ]
                 },
                 {
@@ -2041,24 +2013,17 @@
             "action": "get cron jobs",
             "identifier": "get_cron_jobs",
             "description": "Retrieve available cron jobs",
-            "verbose": "",
             "type": "investigate",
             "read_only": true,
             "parameters": {
                 "offset": {
                     "description": "Starting offset",
                     "data_type": "numeric",
-                    "required": false,
-                    "primary": false,
-                    "default": "",
                     "order": 0
                 },
                 "count": {
                     "description": "Max number of items to fetch",
                     "data_type": "numeric",
-                    "required": false,
-                    "primary": false,
-                    "default": "",
                     "order": 1
                 }
             },
@@ -2067,7 +2032,8 @@
                     "data_path": "action_result.status",
                     "data_type": "string",
                     "example_values": [
-                        "success"
+                        "success",
+                        "failed"
                     ]
                 },
                 {
@@ -2094,9 +2060,6 @@
                 {
                     "data_path": "action_result.data.*.description",
                     "data_type": "string",
-                    "example_values": [
-                        ""
-                    ],
                     "column_name": "Description",
                     "column_order": 4
                 },
@@ -2163,13 +2126,6 @@
                     "column_order": 2
                 },
                 {
-                    "data_path": "action_result.data.*.urn",
-                    "data_type": "string",
-                    "example_values": [
-                        "aff4:/cron/CleanCronJobs"
-                    ]
-                },
-                {
                     "data_path": "action_result.data.*.totalCount",
                     "data_type": "string",
                     "example_values": [
@@ -2177,18 +2133,19 @@
                     ]
                 },
                 {
-                    "data_path": "action_result.summary",
+                    "data_path": "action_result.data.*.urn",
                     "data_type": "string",
                     "example_values": [
-                        ""
+                        "aff4:/cron/CleanCronJobs"
                     ]
                 },
                 {
+                    "data_path": "action_result.summary",
+                    "data_type": "string"
+                },
+                {
                     "data_path": "action_result.message",
-                    "data_type": "string",
-                    "example_values": [
-                        ""
-                    ]
+                    "data_type": "string"
                 },
                 {
                     "data_path": "summary.total_objects",

@@ -1,7 +1,7 @@
 {
     "appid": "d15259be-7a89-4f26-b896-c9302376f2e7",
     "name": "GRR Rapid Response",
-    "description": "This app implements various actions from the GRR API",
+    "description": "This app implements various investigative actions from the GRR API",
     "type": "endpoint",
     "product_vendor": "Google",
     "logo": "logo_grr.svg",
@@ -15,6 +15,9 @@
     "package_name": "phantom_grr",
     "main_module": "grr_connector.py",
     "min_phantom_version": "4.9.39220",
+    "latest_tested_versions": [
+        "On-prem, GRR Rapid Response v3.2.0.1, 03/01/2021"
+    ],
     "app_wizard_version": "1.0.0",
     "python_version": "3",
     "configuration": {
@@ -413,7 +416,7 @@
                     "data_path": "action_result.data.*.knowledgeBase.hostname",
                     "data_type": "string",
                     "example_values": [
-                        "hermans-mac-mini.local"
+                        "test-mac-mini.local"
                     ],
                     "contains": [
                         "host name"
@@ -514,7 +517,7 @@
                     "data_path": "action_result.data.*.osInfo.fqdn",
                     "data_type": "string",
                     "example_values": [
-                        "hermans-mac-mini.local"
+                        "test-mac-mini.local"
                     ]
                 },
                 {
@@ -544,7 +547,7 @@
                     "data_path": "action_result.data.*.osInfo.node",
                     "data_type": "string",
                     "example_values": [
-                        "Hermans-Mac-mini.local"
+                        "Test-Mac-mini.local"
                     ],
                     "column_name": "Host",
                     "column_order": 0
@@ -1520,7 +1523,7 @@
                         "grr user"
                     ],
                     "example_values": [
-                        "herman,   deleteme"
+                        "test,   deleteme"
                     ]
                 },
                 {
@@ -1568,7 +1571,7 @@
                     "data_path": "action_result.data.*.args.grepUsers",
                     "data_type": "string",
                     "example_values": [
-                        "herman"
+                        "user1"
                     ],
                     "column_name": "Grep Users",
                     "column_order": 1
@@ -1797,7 +1800,7 @@
                     "order": 1
                 },
                 "created_by": {
-                    "description": "Only return hunts created by a given user. If approved_by or/and description_contains are also supplied, then logical AND is applied to all the criteria. NOTE: this filter can only be used in conjunction with 'active_within' filter (to prevent queries of death)",
+                    "description": "Only return hunts created by a given user. If approved_by or/and description_contains are also supplied, then logical AND is applied to all the criteria. NOTE: This filter can only be used in conjunction with 'active_within' filter (to prevent queries of death)",
                     "data_type": "string",
                     "contains": [
                         "grr user"
@@ -1806,7 +1809,7 @@
                     "primary": true
                 },
                 "description_contains": {
-                    "description": "Only return hunts where description contains given substring (matching is case-insensitive). If created_by or/and approved_by are also supplied, then logical AND is applied to all the criteria. NOTE: this filter can only be used in conjunction with 'active_within' filter (to prevent queries of death)",
+                    "description": "Only return hunts where description contains given substring (matching is case-insensitive). If created_by or/and approved_by are also supplied, then logical AND is applied to all the criteria. NOTE: This filter can only be used in conjunction with 'active_within' filter (to prevent queries of death)",
                     "data_type": "string",
                     "order": 3
                 },

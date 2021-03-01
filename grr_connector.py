@@ -83,7 +83,7 @@ class GrrConnector(BaseConnector):
 
         # You should process the error returned in the json
         message = "Error from server. Status Code: {0} Data from server: {1}".format(
-                r.status_code, r.text.replace('{', '{{').replace('}', '}}'))
+                r.status_code, resp_json.get("message", r.text.replace('{', '{{').replace('}', '}}')))
 
         return RetVal(action_result.set_status(phantom.APP_ERROR, message), None)
 
@@ -138,10 +138,10 @@ class GrrConnector(BaseConnector):
                             auth=(config[GRR_JSON_USERNAME], config[GRR_JSON_PASSWORD]),  # basic authentication
                             data=data,
                             headers=headers,
-                            verify=config.get('verify_server_cert', False),
+                            verify=config.get(GRR_JSON_VERIFY_SERVER_CERT, False),
                             params=params)
         except Exception as e:
-            return RetVal(action_result.set_status( phantom.APP_ERROR, "Error Connecting to server. Details: {0}".format(str(e))), resp_json)
+            return RetVal(action_result.set_status(phantom.APP_ERROR, "Error Connecting to server. Details: {0}".format(str(e))), resp_json)
 
         return self._process_response(r, action_result)
 
@@ -157,13 +157,14 @@ class GrrConnector(BaseConnector):
         config = self.get_config()
         url = self._base_url + endpoint
         auth = (config[GRR_JSON_USERNAME], config[GRR_JSON_PASSWORD])
+        verify_cert = config.get(GRR_JSON_VERIFY_SERVER_CERT, False)
         s = requests.Session()
         s.auth = auth
 
         try:
-            csrf = s.get(self._base_url).cookies['csrftoken']
+            csrf = s.get(self._base_url, verify=verify_cert).cookies['csrftoken']
             headers = {'X-CSRFToken': csrf, 'Referer': self._base_url}
-            r2 = s.post(url + "?strip_type_info=1", json=body, headers=headers)
+            r2 = s.post(url + "?strip_type_info=1", json=body, headers=headers, verify=verify_cert)
         except Exception as e:
             return action_result.set_status(phantom.APP_ERROR, GRR_ERR_SERVER_CONNECTION, e), None
 
@@ -176,12 +177,12 @@ class GrrConnector(BaseConnector):
 
         # Now we need to wait for the flow to finish
         flow_id = resp_json['flowId']
-        ret_val = self._wait_for_flow(url + "/{0}?strip_type_info=1".format(flow_id), s, action_result)
+        ret_val = self._wait_for_flow(url + "/{0}?strip_type_info=1".format(flow_id), s, action_result, verify_cert)
         if (phantom.is_fail(ret_val)):
             return action_result.get_status(), None
 
         try:
-            r = s.get(url + "/{0}".format(flow_id))
+            r = s.get(url + "/{0}".format(flow_id), verify=verify_cert)
         except Exception as e:
             return action_result.set_status(phantom.APP_ERROR, GRR_ERR_SERVER_CONNECTION, e), None
 
@@ -213,13 +214,13 @@ class GrrConnector(BaseConnector):
 
         return phantom.APP_SUCCESS, resp_json
 
-    def _wait_for_flow(self, address, s, action_result):
+    def _wait_for_flow(self, address, s, action_result, verify_cert=False):
 
         self.save_progress("Waiting for flow to complete")
 
         while True:
             try:
-                r = s.get(address)
+                r = s.get(address, verify=verify_cert)
             except Exception as e:
                 return action_result.set_status(phantom.APP_ERROR, GRR_ERR_SERVER_CONNECTION, e)
             ret_val, resp_json = self._verify_response(r, action_result)
@@ -282,6 +283,12 @@ class GrrConnector(BaseConnector):
         # Access action parameters passed in the 'param' dictionary
         offset = param.get('offset', '')
         count = param.get('count', '')
+
+        if count != '' and (str(count).isdigit() is False or int(count) == 0):
+            return action_result.set_status(phantom.APP_ERROR, GRR_INVALID_COUNT_MSG.format(param_name='count'))
+
+        if offset != '' and str(offset).isdigit() is False:
+            return action_result.set_status(phantom.APP_ERROR, GRR_INVALID_OFFSET_MSG.format(param_name='offset'))
 
         params = {
             "offset": offset,
@@ -412,6 +419,12 @@ class GrrConnector(BaseConnector):
         created_by = param.get('created_by', '')
         description_contains = param.get('description_contains', '')
         active_within = param.get('active_within', '')
+
+        if count != '' and (str(count).isdigit() is False or int(count) == 0):
+            return action_result.set_status(phantom.APP_ERROR, GRR_INVALID_COUNT_MSG.format(param_name='count'))
+
+        if offset != '' and str(offset).isdigit() is False:
+            return action_result.set_status(phantom.APP_ERROR, GRR_INVALID_OFFSET_MSG.format(param_name='offset'))
 
         params = {
             "offset": offset,

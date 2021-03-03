@@ -420,7 +420,7 @@ class GrrConnector(BaseConnector):
         description_contains = param.get('description_contains', '')
         active_within = param.get('active_within', '')
 
-        if count != '' and (str(count).isdigit() is False or int(count) == 0):
+        if count != '' and (not str(count).isdigit() or int(count) == 0):
             return action_result.set_status(phantom.APP_ERROR, GRR_INVALID_COUNT_MSG.format(param_name='count'))
 
         if offset != '' and str(offset).isdigit() is False:

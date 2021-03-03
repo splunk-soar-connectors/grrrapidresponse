@@ -16,7 +16,7 @@
     "main_module": "grr_connector.py",
     "min_phantom_version": "4.9.39220",
     "latest_tested_versions": [
-        "On-prem, GRR Rapid Response v3.2.0.1, 03/01/2021"
+        "On-prem, GRR Rapid Response v3.2.0.1"
     ],
     "app_wizard_version": "1.0.0",
     "python_version": "3",
@@ -25,24 +25,24 @@
             "description": "Username",
             "data_type": "string",
             "required": true,
-            "order": 0
+            "order": 2
         },
         "password": {
             "description": "Password",
             "data_type": "password",
             "required": true,
-            "order": 1
+            "order": 3
         },
         "server": {
             "description": "GRR Server",
             "data_type": "string",
             "required": true,
-            "order": 2
+            "order": 0
         },
         "verify_server_cert": {
             "description": "Verify server certificate",
             "data_type": "boolean",
-            "order": 3,
+            "order": 1,
             "default": false
         }
     },
@@ -1339,7 +1339,7 @@
                     ]
                 },
                 {
-                    "data_path": "action_result.data.*.payload.statEntry.stRdev",
+                    "data_path": "action_result.data.*.payload.statEntry.stDev",
                     "data_type": "numeric",
                     "example_values": [
                         0

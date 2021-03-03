@@ -423,7 +423,7 @@ class GrrConnector(BaseConnector):
         if count != '' and (not str(count).isdigit() or int(count) == 0):
             return action_result.set_status(phantom.APP_ERROR, GRR_INVALID_COUNT_MSG.format(param_name='count'))
 
-        if offset != '' and str(offset).isdigit() is False:
+        if offset != '' and not str(offset).isdigit():
             return action_result.set_status(phantom.APP_ERROR, GRR_INVALID_OFFSET_MSG.format(param_name='offset'))
 
         params = {
@@ -577,9 +577,9 @@ class GrrConnector(BaseConnector):
         regex = param[GRR_JSON_BROWSER_CACHE_REGEX]
         users = [x.strip() for x in str(param[GRR_JSON_USERS]).split(",") if x.strip()]  # might need to format if multiple users
 
-        check_chrome = True if str(param.get('check_chrome', True)).lower() == 'true' else False
-        check_firefox = True if str(param.get('check_firefox', True)).lower() == 'true' else False
-        check_ie = True if str(param.get('check_ie', True)).lower() == 'true' else False
+        check_chrome = str(param.get('check_chrome', True)).lower() == 'true'
+        check_firefox = str(param.get('check_firefox', True)).lower() == 'true'
+        check_ie = str(param.get('check_ie', True)).lower() == 'true'
 
         endpoint = "/api/v2/clients/{0}/flows".format(client_id)
 
@@ -718,7 +718,7 @@ if __name__ == '__main__':
             r2 = requests.post(login_url, verify=False, data=data, headers=headers)
             session_id = r2.cookies['sessionid']
         except Exception as e:
-            print("Unable to get session id from the platfrom. Error: " + str(e))
+            print("Unable to get session id from the platform. Error: " + str(e))
             exit(1)
 
     with open(args.input_test_json) as f:

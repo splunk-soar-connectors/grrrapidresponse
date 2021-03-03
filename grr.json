@@ -8,7 +8,7 @@
     "logo_dark": "logo_grr_dark.svg",
     "product_name": "GRR Rapid Response",
     "product_version_regex": ".*",
-    "publisher": "Phantom",
+    "publisher": "Splunk",
     "license": "Copyright (c) 2018-2021 Splunk Inc.",
     "app_version": "2.0.0",
     "utctime_updated": "2018-12-07T01:23:57.000000Z",
@@ -1800,7 +1800,7 @@
                     "order": 1
                 },
                 "created_by": {
-                    "description": "Only return hunts created by a given user. If approved_by or/and description_contains are also supplied, then logical AND is applied to all the criteria. NOTE: This filter can only be used in conjunction with 'active_within' filter (to prevent queries of death)",
+                    "description": "Only return hunts created by a given user. If approved_by or/and description_contains are also supplied, then logical AND is applied to all the criteria. NOTE: This filter can only be used in conjunction with the 'active_within' filter (to prevent queries of death)",
                     "data_type": "string",
                     "contains": [
                         "grr user"
@@ -1809,7 +1809,7 @@
                     "primary": true
                 },
                 "description_contains": {
-                    "description": "Only return hunts where description contains given substring (matching is case-insensitive). If created_by or/and approved_by are also supplied, then logical AND is applied to all the criteria. NOTE: This filter can only be used in conjunction with 'active_within' filter (to prevent queries of death)",
+                    "description": "Only return hunts where description contains given substring (matching is case-insensitive). If created_by or/and approved_by are also supplied, then logical AND is applied to all the criteria. NOTE: This filter can only be used in conjunction with the 'active_within' filter (to prevent queries of death)",
                     "data_type": "string",
                     "order": 3
                 },

@@ -1,16 +1,8 @@
-# --
 # File: grr_connector.py
+# Copyright (c) 2018-2021 Splunk Inc.
 #
-# Copyright (c) Phantom Cyber Corporation, 2018
-#
-# This unpublished material is proprietary to Phantom Cyber.
-# All rights reserved. The methods and
-# techniques described herein are considered trade secrets
-# and/or confidential. Reproduction or distribution, in whole
-# or in part, is forbidden except by express written permission
-# of Phantom Cyber.
-#
-# --
+# SPLUNK CONFIDENTIAL - Use or disclosure of this material in whole or in part
+# without a valid written license from Splunk Inc. is PROHIBITED.
 
 # Phantom App imports
 import phantom.app as phantom
@@ -91,7 +83,7 @@ class GrrConnector(BaseConnector):
 
         # You should process the error returned in the json
         message = "Error from server. Status Code: {0} Data from server: {1}".format(
-                r.status_code, r.text.replace('{', '{{').replace('}', '}}'))
+                r.status_code, resp_json.get("message", r.text.replace('{', '{{').replace('}', '}}')))
 
         return RetVal(action_result.set_status(phantom.APP_ERROR, message), None)
 
@@ -146,10 +138,10 @@ class GrrConnector(BaseConnector):
                             auth=(config[GRR_JSON_USERNAME], config[GRR_JSON_PASSWORD]),  # basic authentication
                             data=data,
                             headers=headers,
-                            verify=config.get('verify_server_cert', False),
+                            verify=config.get(GRR_JSON_VERIFY_SERVER_CERT, False),
                             params=params)
         except Exception as e:
-            return RetVal(action_result.set_status( phantom.APP_ERROR, "Error Connecting to server. Details: {0}".format(str(e))), resp_json)
+            return RetVal(action_result.set_status(phantom.APP_ERROR, "Error Connecting to server. Details: {0}".format(str(e))), resp_json)
 
         return self._process_response(r, action_result)
 
@@ -165,13 +157,14 @@ class GrrConnector(BaseConnector):
         config = self.get_config()
         url = self._base_url + endpoint
         auth = (config[GRR_JSON_USERNAME], config[GRR_JSON_PASSWORD])
+        verify_cert = config.get(GRR_JSON_VERIFY_SERVER_CERT, False)
         s = requests.Session()
         s.auth = auth
 
         try:
-            csrf = s.get(self._base_url).cookies['csrftoken']
+            csrf = s.get(self._base_url, verify=verify_cert).cookies['csrftoken']
             headers = {'X-CSRFToken': csrf, 'Referer': self._base_url}
-            r2 = s.post(url + "?strip_type_info=1", json=body, headers=headers)
+            r2 = s.post(url + "?strip_type_info=1", json=body, headers=headers, verify=verify_cert)
         except Exception as e:
             return action_result.set_status(phantom.APP_ERROR, GRR_ERR_SERVER_CONNECTION, e), None
 
@@ -184,12 +177,12 @@ class GrrConnector(BaseConnector):
 
         # Now we need to wait for the flow to finish
         flow_id = resp_json['flowId']
-        ret_val = self._wait_for_flow(url + "/{0}?strip_type_info=1".format(flow_id), s, action_result)
+        ret_val = self._wait_for_flow(url + "/{0}?strip_type_info=1".format(flow_id), s, action_result, verify_cert)
         if (phantom.is_fail(ret_val)):
             return action_result.get_status(), None
 
         try:
-            r = s.get(url + "/{0}".format(flow_id))
+            r = s.get(url + "/{0}".format(flow_id), verify=verify_cert)
         except Exception as e:
             return action_result.set_status(phantom.APP_ERROR, GRR_ERR_SERVER_CONNECTION, e), None
 
@@ -203,8 +196,16 @@ class GrrConnector(BaseConnector):
 
         self.save_progress("Verifying response")
 
-        if not r:
-            return action_result.set_status(phantom.APP_ERROR, r.text), None
+        if not r.ok:
+            message = "Can't process response from server. Status Code: {0} Message: {1}"
+            try:
+                resp_json = r.text.lstrip(")]}'\n")
+                resp_json = json.loads(resp_json)
+                message = message.format(r.status_code, resp_json.get('message', r.reason))
+            except Exception as e:
+                return action_result.set_status(phantom.APP_ERROR, GRR_ERR_JSON_PARSE, e), None
+
+            return action_result.set_status(phantom.APP_ERROR, message), None
 
         try:
             resp_json = json.loads(r.text.splitlines()[1])
@@ -213,13 +214,13 @@ class GrrConnector(BaseConnector):
 
         return phantom.APP_SUCCESS, resp_json
 
-    def _wait_for_flow(self, address, s, action_result):
+    def _wait_for_flow(self, address, s, action_result, verify_cert=False):
 
         self.save_progress("Waiting for flow to complete")
 
         while True:
             try:
-                r = s.get(address)
+                r = s.get(address, verify=verify_cert)
             except Exception as e:
                 return action_result.set_status(phantom.APP_ERROR, GRR_ERR_SERVER_CONNECTION, e)
             ret_val, resp_json = self._verify_response(r, action_result)
@@ -282,6 +283,12 @@ class GrrConnector(BaseConnector):
         # Access action parameters passed in the 'param' dictionary
         offset = param.get('offset', '')
         count = param.get('count', '')
+
+        if count != '' and (str(count).isdigit() is False or int(count) == 0):
+            return action_result.set_status(phantom.APP_ERROR, GRR_INVALID_COUNT_MSG.format(param_name='count'))
+
+        if offset != '' and str(offset).isdigit() is False:
+            return action_result.set_status(phantom.APP_ERROR, GRR_INVALID_OFFSET_MSG.format(param_name='offset'))
 
         params = {
             "offset": offset,
@@ -349,7 +356,7 @@ class GrrConnector(BaseConnector):
         action_result = self.add_action_result(ActionResult(dict(param)))
 
         # Required values can be accessed directly
-        client_id = param[GRR_JSON_CLIENT_ID]
+        client_id = requests.compat.quote(param[GRR_JSON_CLIENT_ID])
 
         endpoint = '/api/v2/clients/{0}/flows'.format(client_id)
 
@@ -413,6 +420,12 @@ class GrrConnector(BaseConnector):
         description_contains = param.get('description_contains', '')
         active_within = param.get('active_within', '')
 
+        if count != '' and (not str(count).isdigit() or int(count) == 0):
+            return action_result.set_status(phantom.APP_ERROR, GRR_INVALID_COUNT_MSG.format(param_name='count'))
+
+        if offset != '' and not str(offset).isdigit():
+            return action_result.set_status(phantom.APP_ERROR, GRR_INVALID_OFFSET_MSG.format(param_name='offset'))
+
         params = {
             "offset": offset,
             "count": count,
@@ -437,7 +450,7 @@ class GrrConnector(BaseConnector):
 
         # Add a dictionary that is made up of the most important values from data into the summary
         summary = action_result.update_summary({})
-        summary['total_hunts'] = len(response)
+        summary['total_hunts'] = len(response.get('items', {}))
 
         # Return success, no need to set the message, only the status
         # BaseConnector will create a textual message based off of the summary dictionary
@@ -455,7 +468,7 @@ class GrrConnector(BaseConnector):
         # Access action parameters passed in the 'param' dictionary
 
         # Required values can be accessed directly
-        client_id = param[GRR_JSON_CLIENT_ID]
+        client_id = requests.compat.quote(param[GRR_JSON_CLIENT_ID])
 
         if client_id is None:
             return action_result.set_status(phantom.APP_ERROR, "Please specify client id")
@@ -495,7 +508,7 @@ class GrrConnector(BaseConnector):
         # Access action parameters passed in the 'param' dictionary
 
         # Required values can be accessed directly
-        client_id = param[GRR_JSON_CLIENT_ID]
+        client_id = requests.compat.quote(param[GRR_JSON_CLIENT_ID])
         file_path = param[GRR_JSON_FILE_PATH]
 
         endpoint = '/api/v2/clients/{0}/flows'.format(client_id)
@@ -504,7 +517,7 @@ class GrrConnector(BaseConnector):
         body = {
             "flow": {
                 "args": {
-                    "paths": [ file_path ],
+                    "paths": [file_path],
                     "@type": "type.googleapis.com/FileFinderArgs"
                 },
                 "name": "FileFinder",
@@ -560,13 +573,13 @@ class GrrConnector(BaseConnector):
         # Access action parameters passed in the 'param' dictionary
 
         # Required values can be accessed directly
-        client_id = param[GRR_JSON_CLIENT_ID]
+        client_id = requests.compat.quote(param[GRR_JSON_CLIENT_ID])
         regex = param[GRR_JSON_BROWSER_CACHE_REGEX]
-        users = [x.strip() for x in str(param[GRR_JSON_USERS]).split(",")]  # might need to format if multiple users
+        users = [x.strip() for x in str(param[GRR_JSON_USERS]).split(",") if x.strip()]  # might need to format if multiple users
 
-        check_chrome = param.get('check_chrome', True)
-        check_firefox = param.get('check_firefox', True)
-        check_ie = param.get('check_ie', True)
+        check_chrome = str(param.get('check_chrome', True)).lower() == 'true'
+        check_firefox = str(param.get('check_firefox', True)).lower() == 'true'
+        check_ie = str(param.get('check_ie', True)).lower() == 'true'
 
         endpoint = "/api/v2/clients/{0}/flows".format(client_id)
 
@@ -686,8 +699,10 @@ if __name__ == '__main__':
 
     if (username and password):
         try:
-            print ("Accessing the Login page")
-            r = requests.get("https://127.0.0.1/login", verify=False)
+            login_url = GrrConnector._get_phantom_base_url() + '/login'
+
+            print("Accessing the Login page")
+            r = requests.get(login_url, verify=False)
             csrftoken = r.cookies['csrftoken']
 
             data = dict()
@@ -697,13 +712,13 @@ if __name__ == '__main__':
 
             headers = dict()
             headers['Cookie'] = 'csrftoken=' + csrftoken
-            headers['Referer'] = 'https://127.0.0.1/login'
+            headers['Referer'] = login_url
 
-            print ("Logging into Platform to get the session id")
-            r2 = requests.post("https://127.0.0.1/login", verify=False, data=data, headers=headers)
+            print("Logging into Platform to get the session id")
+            r2 = requests.post(login_url, verify=False, data=data, headers=headers)
             session_id = r2.cookies['sessionid']
         except Exception as e:
-            print ("Unable to get session id from the platfrom. Error: " + str(e))
+            print("Unable to get session id from the platform. Error: {}".format(e))
             exit(1)
 
     with open(args.input_test_json) as f:
@@ -719,6 +734,6 @@ if __name__ == '__main__':
             connector._set_csrf_info(csrftoken, headers['Referer'])
 
         ret_val = connector._handle_action(json.dumps(in_json), None)
-        print (json.dumps(json.loads(ret_val), indent=4))
+        print(json.dumps(json.loads(ret_val), indent=4))
 
     exit(0)

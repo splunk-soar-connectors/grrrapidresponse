@@ -15,6 +15,7 @@
     "package_name": "phantom_grr",
     "main_module": "grr_connector.py",
     "min_phantom_version": "4.9.39220",
+    "fips_compliant": true,
     "latest_tested_versions": [
         "On-prem, GRR Rapid Response v3.2.0.1"
     ],

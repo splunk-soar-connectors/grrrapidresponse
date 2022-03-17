@@ -15,16 +15,17 @@
 #
 #
 # Phantom App imports
+import json
+import time
+
 import phantom.app as phantom
-from phantom.base_connector import BaseConnector
+import requests
+from bs4 import BeautifulSoup
 from phantom.action_result import ActionResult
+from phantom.base_connector import BaseConnector
 
 # Usage of the consts file is recommended
 from grr_consts import *
-import requests
-import json
-from bs4 import BeautifulSoup
-import time
 
 
 class RetVal(tuple):
@@ -684,8 +685,9 @@ class GrrConnector(BaseConnector):
 
 if __name__ == '__main__':
 
-    import pudb
     import argparse
+
+    import pudb
 
     pudb.set_trace()
 

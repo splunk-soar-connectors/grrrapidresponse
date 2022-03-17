@@ -9,12 +9,13 @@
     "product_name": "GRR Rapid Response",
     "product_version_regex": ".*",
     "publisher": "Splunk",
-    "license": "Copyright (c) 2018-2021 Splunk Inc.",
+    "license": "Copyright (c) 2018-2022 Splunk Inc.",
     "app_version": "2.0.3",
     "utctime_updated": "2022-01-07T22:04:48.000000Z",
     "package_name": "phantom_grr",
     "main_module": "grr_connector.py",
     "min_phantom_version": "4.9.39220",
+    "fips_compliant": true,
     "latest_tested_versions": [
         "On-prem, GRR Rapid Response v3.2.0.1"
     ],

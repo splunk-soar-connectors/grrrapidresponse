@@ -14,7 +14,7 @@
     "utctime_updated": "2022-03-17T18:51:16.000000Z",
     "package_name": "phantom_grr",
     "main_module": "grr_connector.py",
-    "min_phantom_version": "4.9.39220",
+    "min_phantom_version": "5.1.0",
     "fips_compliant": true,
     "latest_tested_versions": [
         "On-prem, GRR Rapid Response v3.2.0.1"

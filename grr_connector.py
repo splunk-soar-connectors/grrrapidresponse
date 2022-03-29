@@ -322,6 +322,7 @@ class GrrConnector(BaseConnector):
 
         # Return success, no need to set the message, only the status
         # BaseConnector will create a textual message based off of the summary dictionary
+        self.save_progress("Action: {0} - Status: {1}".format(self.get_action_identifier(), phantom.APP_SUCCESS))
         return action_result.set_status(phantom.APP_SUCCESS, "Successfully retrieved cron jobs")
 
     def _handle_list_endpoints(self, param):
@@ -355,6 +356,7 @@ class GrrConnector(BaseConnector):
 
         # Return success, no need to set the message, only the status
         # BaseConnector will create a textual message based off of the summary dictionary
+        self.save_progress("Action: {0} - Status: {1}".format(self.get_action_identifier(), phantom.APP_SUCCESS))
         return action_result.set_status(phantom.APP_SUCCESS)
 
     def _handle_list_connections(self, param):
@@ -465,6 +467,7 @@ class GrrConnector(BaseConnector):
 
         # Return success, no need to set the message, only the status
         # BaseConnector will create a textual message based off of the summary dictionary
+        self.save_progress("Action: {0} - Status: {1}".format(self.get_action_identifier(), phantom.APP_SUCCESS))
         return action_result.set_status(phantom.APP_SUCCESS)
 
     def _handle_get_system_info(self, param):
@@ -505,6 +508,7 @@ class GrrConnector(BaseConnector):
 
         # Return success, no need to set the message, only the status
         # BaseConnector will create a textual message based off of the summary dictionary
+        self.save_progress("Action: {0} - Status: {1}".format(self.get_action_identifier(), phantom.APP_SUCCESS))
         return action_result.set_status(phantom.APP_SUCCESS)
 
     def _handle_get_file_info(self, param):

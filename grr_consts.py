@@ -27,3 +27,4 @@ GRR_JSON_USERS = "users"
 GRR_JSON_VERIFY_SERVER_CERT = "verify_server_cert"
 GRR_INVALID_COUNT_MSG = "Please provide a non-zero positive integer in the {param_name} parameter"
 GRR_INVALID_OFFSET_MSG = "Please provide a non-negative integer in the {param_name} parameter"
+DEFAULT_REQUEST_TIMEOUT = 30  # in seconds

@@ -6,7 +6,7 @@ Connector Version: 2\.0\.4
 Product Vendor: Google  
 Product Name: GRR Rapid Response  
 Product Version Supported (regex): "\.\*"  
-Minimum Product Version: 4\.9\.39220  
+Minimum Product Version: 5\.1\.0  
 
 This app implements various investigative actions from the GRR API
 
@@ -194,6 +194,12 @@ action\_result\.data\.\*\.knowledgeBase\.users\.\*\.fullName | string |
 action\_result\.data\.\*\.knowledgeBase\.users\.\*\.homedir | string | 
 action\_result\.data\.\*\.knowledgeBase\.users\.\*\.lastLogon | string | 
 action\_result\.data\.\*\.knowledgeBase\.users\.\*\.username | string |  `grr user` 
+action\_result\.data\.\*\.osInfo\.kernel | string | 
+action\_result\.data\.\*\.osInfo\.system | string | 
+action\_result\.data\.\*\.osInfo\.machine | string | 
+action\_result\.data\.\*\.osInfo\.version | string | 
+action\_result\.data\.\*\.osInfo\.release | string | 
+action\_result\.data\.\*\.osInfo\.node | string | 
 action\_result\.data\.\*\.lastBootedAt | string | 
 action\_result\.data\.\*\.lastClock | string | 
 action\_result\.data\.\*\.lastCrashAt | string | 
@@ -201,12 +207,6 @@ action\_result\.data\.\*\.lastSeenAt | string |
 action\_result\.data\.\*\.memorySize | string | 
 action\_result\.data\.\*\.osInfo\.fqdn | string | 
 action\_result\.data\.\*\.osInfo\.installDate | string | 
-action\_result\.data\.\*\.osInfo\.kernel | string | 
-action\_result\.data\.\*\.osInfo\.machine | string | 
-action\_result\.data\.\*\.osInfo\.node | string | 
-action\_result\.data\.\*\.osInfo\.release | string | 
-action\_result\.data\.\*\.osInfo\.system | string | 
-action\_result\.data\.\*\.osInfo\.version | string | 
 action\_result\.data\.\*\.urn | string | 
 action\_result\.data\.\*\.users\.\*\.fullName | string | 
 action\_result\.data\.\*\.users\.\*\.homedir | string | 
@@ -389,15 +389,15 @@ action\_result\.status | string |
 action\_result\.parameter\.count | numeric | 
 action\_result\.parameter\.offset | numeric | 
 action\_result\.data\.\*\.allowOverruns | boolean | 
-action\_result\.data\.\*\.description | string | 
 action\_result\.data\.\*\.flowArgs\.\@type | string | 
 action\_result\.data\.\*\.flowName | string | 
-action\_result\.data\.\*\.flowRunnerArgs\.flowName | string | 
 action\_result\.data\.\*\.isFailing | boolean | 
+action\_result\.data\.\*\.state | string | 
+action\_result\.data\.\*\.description | string | 
+action\_result\.data\.\*\.flowRunnerArgs\.flowName | string | 
 action\_result\.data\.\*\.lastRunTime | string | 
 action\_result\.data\.\*\.lifetime | string | 
 action\_result\.data\.\*\.periodicity | string | 
-action\_result\.data\.\*\.state | string | 
 action\_result\.data\.\*\.totalCount | string | 
 action\_result\.data\.\*\.urn | string | 
 action\_result\.summary | string | 

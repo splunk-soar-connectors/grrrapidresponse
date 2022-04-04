@@ -195,7 +195,7 @@ class GrrConnector(BaseConnector):
             return action_result.get_status(), None
 
         try:
-            r = s.get(url + "/{0}".format(flow_id), verify=verify_cert, )
+            r = s.get(url + "/{0}".format(flow_id), verify=verify_cert, timeout=DEFAULT_REQUEST_TIMEOUT)
         except Exception as e:
             return action_result.set_status(phantom.APP_ERROR, GRR_ERR_SERVER_CONNECTION, e), None
 

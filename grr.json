@@ -9,12 +9,13 @@
     "product_name": "GRR Rapid Response",
     "product_version_regex": ".*",
     "publisher": "Splunk",
-    "license": "Copyright (c) 2018-2021 Splunk Inc.",
-    "app_version": "2.0.3",
-    "utctime_updated": "2021-03-08T04:50:00.000000Z",
+    "license": "Copyright (c) 2018-2022 Splunk Inc.",
+    "app_version": "2.0.4",
+    "utctime_updated": "2022-03-17T18:51:16.000000Z",
     "package_name": "phantom_grr",
     "main_module": "grr_connector.py",
-    "min_phantom_version": "4.9.39220",
+    "min_phantom_version": "5.1.0",
+    "fips_compliant": true,
     "latest_tested_versions": [
         "On-prem, GRR Rapid Response v3.2.0.1"
     ],
@@ -743,7 +744,7 @@
                         "grr linux amd64"
                     ],
                     "column_name": "Description",
-                    "column_order": 1
+                    "column_order": 12
                 },
                 {
                     "data_path": "action_result.data.*.agentInfo.clientName",
@@ -771,7 +772,7 @@
                         "grr client id"
                     ],
                     "column_name": "Client ID",
-                    "column_order": 2
+                    "column_order": 10
                 },
                 {
                     "data_path": "action_result.data.*.firstSeenAt",
@@ -787,7 +788,7 @@
                         "07/30/2013"
                     ],
                     "column_name": "BIOS Release Date",
-                    "column_order": 3
+                    "column_order": 9
                 },
                 {
                     "data_path": "action_result.data.*.hardwareInfo.biosRevision",
@@ -905,7 +906,7 @@
                         "Linux"
                     ],
                     "column_name": "OS",
-                    "column_order": 4
+                    "column_order": 8
                 },
                 {
                     "data_path": "action_result.data.*.knowledgeBase.osMajorVersion",
@@ -928,7 +929,7 @@
                         "Ubuntu"
                     ],
                     "column_name": "OS Release",
-                    "column_order": 5
+                    "column_order": 7
                 },
                 {
                     "data_path": "action_result.data.*.knowledgeBase.users.*.fullName",
@@ -962,6 +963,60 @@
                     ],
                     "column_name": "Username",
                     "column_order": 0
+                },
+                {
+                    "data_path": "action_result.data.*.osInfo.kernel",
+                    "data_type": "string",
+                    "example_values": [
+                        "4.4.0-53-generic"
+                    ],
+                    "column_name": "Kernel",
+                    "column_order": 1
+                },
+                {
+                    "data_path": "action_result.data.*.osInfo.system",
+                    "data_type": "string",
+                    "example_values": [
+                        "Linux"
+                    ],
+                    "column_name": "System",
+                    "column_order": 2
+                },
+                {
+                    "data_path": "action_result.data.*.osInfo.machine",
+                    "data_type": "string",
+                    "example_values": [
+                        "x86_64"
+                    ],
+                    "column_name": "Maching",
+                    "column_order": 3
+                },
+                {
+                    "data_path": "action_result.data.*.osInfo.version",
+                    "data_type": "string",
+                    "example_values": [
+                        "16.4"
+                    ],
+                    "column_name": "Version",
+                    "column_order": 4
+                },
+                {
+                    "data_path": "action_result.data.*.osInfo.release",
+                    "data_type": "string",
+                    "example_values": [
+                        "Ubuntu"
+                    ],
+                    "column_name": "Release",
+                    "column_order": 5
+                },
+                {
+                    "data_path": "action_result.data.*.osInfo.node",
+                    "data_type": "string",
+                    "example_values": [
+                        "grr"
+                    ],
+                    "column_name": "Node",
+                    "column_order": 6
                 },
                 {
                     "data_path": "action_result.data.*.lastBootedAt",
@@ -1011,60 +1066,6 @@
                     "example_values": [
                         "1470708645000000"
                     ]
-                },
-                {
-                    "data_path": "action_result.data.*.osInfo.kernel",
-                    "data_type": "string",
-                    "example_values": [
-                        "4.4.0-53-generic"
-                    ],
-                    "column_name": "Kernel",
-                    "column_order": 1
-                },
-                {
-                    "data_path": "action_result.data.*.osInfo.machine",
-                    "data_type": "string",
-                    "example_values": [
-                        "x86_64"
-                    ],
-                    "column_name": "Maching",
-                    "column_order": 3
-                },
-                {
-                    "data_path": "action_result.data.*.osInfo.node",
-                    "data_type": "string",
-                    "example_values": [
-                        "grr"
-                    ],
-                    "column_name": "Node",
-                    "column_order": 0
-                },
-                {
-                    "data_path": "action_result.data.*.osInfo.release",
-                    "data_type": "string",
-                    "example_values": [
-                        "Ubuntu"
-                    ],
-                    "column_name": "Release",
-                    "column_order": 5
-                },
-                {
-                    "data_path": "action_result.data.*.osInfo.system",
-                    "data_type": "string",
-                    "example_values": [
-                        "Linux"
-                    ],
-                    "column_name": "System",
-                    "column_order": 2
-                },
-                {
-                    "data_path": "action_result.data.*.osInfo.version",
-                    "data_type": "string",
-                    "example_values": [
-                        "16.4"
-                    ],
-                    "column_name": "Version",
-                    "column_order": 4
                 },
                 {
                     "data_path": "action_result.data.*.urn",
@@ -2067,12 +2068,6 @@
                     ]
                 },
                 {
-                    "data_path": "action_result.data.*.description",
-                    "data_type": "string",
-                    "column_name": "Description",
-                    "column_order": 4
-                },
-                {
                     "data_path": "action_result.data.*.flowArgs.@type",
                     "data_type": "string",
                     "example_values": [
@@ -2089,13 +2084,6 @@
                     "column_order": 0
                 },
                 {
-                    "data_path": "action_result.data.*.flowRunnerArgs.flowName",
-                    "data_type": "string",
-                    "example_values": [
-                        "CleanCronJobs"
-                    ]
-                },
-                {
                     "data_path": "action_result.data.*.isFailing",
                     "data_type": "boolean",
                     "example_values": [
@@ -2103,6 +2091,28 @@
                     ],
                     "column_name": "Is Failing",
                     "column_order": 1
+                },
+                {
+                    "data_path": "action_result.data.*.state",
+                    "data_type": "string",
+                    "example_values": [
+                        "ENABLED"
+                    ],
+                    "column_name": "State",
+                    "column_order": 2
+                },
+                {
+                    "data_path": "action_result.data.*.description",
+                    "data_type": "string",
+                    "column_name": "Description",
+                    "column_order": 3
+                },
+                {
+                    "data_path": "action_result.data.*.flowRunnerArgs.flowName",
+                    "data_type": "string",
+                    "example_values": [
+                        "CleanCronJobs"
+                    ]
                 },
                 {
                     "data_path": "action_result.data.*.lastRunTime",
@@ -2124,15 +2134,6 @@
                     "example_values": [
                         "86400"
                     ]
-                },
-                {
-                    "data_path": "action_result.data.*.state",
-                    "data_type": "string",
-                    "example_values": [
-                        "ENABLED"
-                    ],
-                    "column_name": "State",
-                    "column_order": 2
                 },
                 {
                     "data_path": "action_result.data.*.totalCount",
@@ -2176,5 +2177,37 @@
             },
             "versions": "EQ(*)"
         }
-    ]
+    ],
+    "pip_dependencies": {
+        "wheel": [
+            {
+                "module": "beautifulsoup4",
+                "input_file": "wheels/beautifulsoup4-4.9.1-py3-none-any.whl"
+            },
+            {
+                "module": "certifi",
+                "input_file": "wheels/certifi-2021.10.8-py2.py3-none-any.whl"
+            },
+            {
+                "module": "chardet",
+                "input_file": "wheels/chardet-3.0.4-py2.py3-none-any.whl"
+            },
+            {
+                "module": "idna",
+                "input_file": "wheels/idna-2.10-py2.py3-none-any.whl"
+            },
+            {
+                "module": "requests",
+                "input_file": "wheels/requests-2.25.0-py2.py3-none-any.whl"
+            },
+            {
+                "module": "soupsieve",
+                "input_file": "wheels/soupsieve-2.3.1-py3-none-any.whl"
+            },
+            {
+                "module": "urllib3",
+                "input_file": "wheels/urllib3-1.26.7-py2.py3-none-any.whl"
+            }
+        ]
+    }
 }

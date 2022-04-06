@@ -1,20 +1,32 @@
 # File: grr_connector.py
-# Copyright (c) 2018-2021 Splunk Inc.
 #
-# SPLUNK CONFIDENTIAL - Use or disclosure of this material in whole or in part
-# without a valid written license from Splunk Inc. is PROHIBITED.
-
+# Copyright (c) 2018-2022 Splunk Inc.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software distributed under
+# the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
+# either express or implied. See the License for the specific language governing permissions
+# and limitations under the License.
+#
+#
 # Phantom App imports
+import json
+import sys
+import time
+
 import phantom.app as phantom
-from phantom.base_connector import BaseConnector
+import requests
+from bs4 import BeautifulSoup
 from phantom.action_result import ActionResult
+from phantom.base_connector import BaseConnector
 
 # Usage of the consts file is recommended
 from grr_consts import *
-import requests
-import json
-from bs4 import BeautifulSoup
-import time
 
 
 class RetVal(tuple):
@@ -164,7 +176,8 @@ class GrrConnector(BaseConnector):
         try:
             csrf = s.get(self._base_url, verify=verify_cert).cookies['csrftoken']
             headers = {'X-CSRFToken': csrf, 'Referer': self._base_url}
-            r2 = s.post(url + "?strip_type_info=1", json=body, headers=headers, verify=verify_cert)
+            r2 = s.post(url + "?strip_type_info=1", json=body, headers=headers, verify=verify_cert,
+                        timeout=DEFAULT_REQUEST_TIMEOUT)
         except Exception as e:
             return action_result.set_status(phantom.APP_ERROR, GRR_ERR_SERVER_CONNECTION, e), None
 
@@ -182,7 +195,7 @@ class GrrConnector(BaseConnector):
             return action_result.get_status(), None
 
         try:
-            r = s.get(url + "/{0}".format(flow_id), verify=verify_cert)
+            r = s.get(url + "/{0}".format(flow_id), verify=verify_cert, timeout=DEFAULT_REQUEST_TIMEOUT)
         except Exception as e:
             return action_result.set_status(phantom.APP_ERROR, GRR_ERR_SERVER_CONNECTION, e), None
 
@@ -220,7 +233,7 @@ class GrrConnector(BaseConnector):
 
         while True:
             try:
-                r = s.get(address, verify=verify_cert)
+                r = s.get(address, verify=verify_cert, timeout=DEFAULT_REQUEST_TIMEOUT)
             except Exception as e:
                 return action_result.set_status(phantom.APP_ERROR, GRR_ERR_SERVER_CONNECTION, e)
             ret_val, resp_json = self._verify_response(r, action_result)
@@ -311,6 +324,7 @@ class GrrConnector(BaseConnector):
 
         # Return success, no need to set the message, only the status
         # BaseConnector will create a textual message based off of the summary dictionary
+        self.save_progress("Action: {0} - Status: {1}".format(self.get_action_identifier(), phantom.APP_SUCCESS))
         return action_result.set_status(phantom.APP_SUCCESS, "Successfully retrieved cron jobs")
 
     def _handle_list_endpoints(self, param):
@@ -344,6 +358,7 @@ class GrrConnector(BaseConnector):
 
         # Return success, no need to set the message, only the status
         # BaseConnector will create a textual message based off of the summary dictionary
+        self.save_progress("Action: {0} - Status: {1}".format(self.get_action_identifier(), phantom.APP_SUCCESS))
         return action_result.set_status(phantom.APP_SUCCESS)
 
     def _handle_list_connections(self, param):
@@ -454,6 +469,7 @@ class GrrConnector(BaseConnector):
 
         # Return success, no need to set the message, only the status
         # BaseConnector will create a textual message based off of the summary dictionary
+        self.save_progress("Action: {0} - Status: {1}".format(self.get_action_identifier(), phantom.APP_SUCCESS))
         return action_result.set_status(phantom.APP_SUCCESS)
 
     def _handle_get_system_info(self, param):
@@ -494,6 +510,7 @@ class GrrConnector(BaseConnector):
 
         # Return success, no need to set the message, only the status
         # BaseConnector will create a textual message based off of the summary dictionary
+        self.save_progress("Action: {0} - Status: {1}".format(self.get_action_identifier(), phantom.APP_SUCCESS))
         return action_result.set_status(phantom.APP_SUCCESS)
 
     def _handle_get_file_info(self, param):
@@ -674,8 +691,9 @@ class GrrConnector(BaseConnector):
 
 if __name__ == '__main__':
 
-    import pudb
     import argparse
+
+    import pudb
 
     pudb.set_trace()
 
@@ -684,12 +702,14 @@ if __name__ == '__main__':
     argparser.add_argument('input_test_json', help='Input Test JSON file')
     argparser.add_argument('-u', '--username', help='username', required=False)
     argparser.add_argument('-p', '--password', help='password', required=False)
+    argparser.add_argument('-v', '--verify', action='store_true', help='verify', required=False, default=False)
 
     args = argparser.parse_args()
     session_id = None
 
     username = args.username
     password = args.password
+    verify = args.verify
 
     if (username is not None and password is None):
 
@@ -702,7 +722,7 @@ if __name__ == '__main__':
             login_url = GrrConnector._get_phantom_base_url() + '/login'
 
             print("Accessing the Login page")
-            r = requests.get(login_url, verify=False)
+            r = requests.get(login_url, verify=verify, timeout=DEFAULT_REQUEST_TIMEOUT)
             csrftoken = r.cookies['csrftoken']
 
             data = dict()
@@ -715,11 +735,11 @@ if __name__ == '__main__':
             headers['Referer'] = login_url
 
             print("Logging into Platform to get the session id")
-            r2 = requests.post(login_url, verify=False, data=data, headers=headers)
+            r2 = requests.post(login_url, verify=verify, data=data, headers=headers, timeout=DEFAULT_REQUEST_TIMEOUT)
             session_id = r2.cookies['sessionid']
         except Exception as e:
             print("Unable to get session id from the platform. Error: {}".format(e))
-            exit(1)
+            sys.exit(1)
 
     with open(args.input_test_json) as f:
         in_json = f.read()
@@ -736,4 +756,4 @@ if __name__ == '__main__':
         ret_val = connector._handle_action(json.dumps(in_json), None)
         print(json.dumps(json.loads(ret_val), indent=4))
 
-    exit(0)
+    sys.exit(0)

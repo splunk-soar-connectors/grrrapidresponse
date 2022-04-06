@@ -176,7 +176,8 @@ class GrrConnector(BaseConnector):
         try:
             csrf = s.get(self._base_url, verify=verify_cert).cookies['csrftoken']
             headers = {'X-CSRFToken': csrf, 'Referer': self._base_url}
-            r2 = s.post(url + "?strip_type_info=1", json=body, headers=headers, verify=verify_cert)
+            r2 = s.post(url + "?strip_type_info=1", json=body, headers=headers, verify=verify_cert,
+                        timeout=DEFAULT_REQUEST_TIMEOUT)
         except Exception as e:
             return action_result.set_status(phantom.APP_ERROR, GRR_ERR_SERVER_CONNECTION, e), None
 
@@ -194,7 +195,7 @@ class GrrConnector(BaseConnector):
             return action_result.get_status(), None
 
         try:
-            r = s.get(url + "/{0}".format(flow_id), verify=verify_cert)
+            r = s.get(url + "/{0}".format(flow_id), verify=verify_cert, timeout=DEFAULT_REQUEST_TIMEOUT)
         except Exception as e:
             return action_result.set_status(phantom.APP_ERROR, GRR_ERR_SERVER_CONNECTION, e), None
 
@@ -232,7 +233,7 @@ class GrrConnector(BaseConnector):
 
         while True:
             try:
-                r = s.get(address, verify=verify_cert)
+                r = s.get(address, verify=verify_cert, timeout=DEFAULT_REQUEST_TIMEOUT)
             except Exception as e:
                 return action_result.set_status(phantom.APP_ERROR, GRR_ERR_SERVER_CONNECTION, e)
             ret_val, resp_json = self._verify_response(r, action_result)

@@ -2,11 +2,11 @@
 # GRR Rapid Response
 
 Publisher: Splunk  
-Connector Version: 2\.0\.4  
+Connector Version: 2\.0\.5  
 Product Vendor: Google  
 Product Name: GRR Rapid Response  
 Product Version Supported (regex): "\.\*"  
-Minimum Product Version: 5\.1\.0  
+Minimum Product Version: 5\.2\.0  
 
 This app implements various investigative actions from the GRR API
 

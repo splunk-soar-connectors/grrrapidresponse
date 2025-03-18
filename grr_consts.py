@@ -18,7 +18,7 @@ GRR_ERR_JSON_PARSE = "Unable to parse the fields parameter into a dictionary"
 GRR_ERR_VALIDATE_FAILED = "Failed to validate connection"
 
 GRR_JSON_USERNAME = "username"
-GRR_JSON_PASSWORD = "password"
+GRR_JSON_PASSWORD = "password"  # pragma: allowlist secret
 GRR_JSON_SERVER = "server"
 GRR_JSON_CLIENT_ID = "client_id"
 GRR_JSON_FILE_PATH = "file_path"

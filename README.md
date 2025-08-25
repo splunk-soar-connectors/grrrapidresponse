@@ -1,9 +1,9 @@
 # GRR Rapid Response
 
-Publisher: Splunk \
-Connector Version: 2.0.6 \
-Product Vendor: Google \
-Product Name: GRR Rapid Response \
+Publisher: Splunk <br>
+Connector Version: 2.0.6 <br>
+Product Vendor: Google <br>
+Product Name: GRR Rapid Response <br>
 Minimum Product Version: 5.2.0
 
 This app implements various investigative actions from the GRR API
@@ -21,20 +21,20 @@ VARIABLE | REQUIRED | TYPE | DESCRIPTION
 
 ### Supported Actions
 
-[test connectivity](#action-test-connectivity) - Validate the asset configuration for connectivity using supplied configuration \
-[list connections](#action-list-connections) - List all the connections configured on the device \
-[list endpoints](#action-list-endpoints) - List all the endpoints/sensors configured on the device \
-[get system info](#action-get-system-info) - Get information about an endpoint \
-[get file info](#action-get-file-info) - Look for files matching given criteria \
-[get browser cache](#action-get-browser-cache) - Retrieve matching regex in a client's browser cache \
-[get hunts](#action-get-hunts) - Retrieve available hunts \
+[test connectivity](#action-test-connectivity) - Validate the asset configuration for connectivity using supplied configuration <br>
+[list connections](#action-list-connections) - List all the connections configured on the device <br>
+[list endpoints](#action-list-endpoints) - List all the endpoints/sensors configured on the device <br>
+[get system info](#action-get-system-info) - Get information about an endpoint <br>
+[get file info](#action-get-file-info) - Look for files matching given criteria <br>
+[get browser cache](#action-get-browser-cache) - Retrieve matching regex in a client's browser cache <br>
+[get hunts](#action-get-hunts) - Retrieve available hunts <br>
 [get cron jobs](#action-get-cron-jobs) - Retrieve available cron jobs
 
 ## action: 'test connectivity'
 
 Validate the asset configuration for connectivity using supplied configuration
 
-Type: **test** \
+Type: **test** <br>
 Read only: **True**
 
 #### Action Parameters
@@ -49,7 +49,7 @@ No Output
 
 List all the connections configured on the device
 
-Type: **investigate** \
+Type: **investigate** <br>
 Read only: **True**
 
 #### Action Parameters
@@ -85,7 +85,7 @@ summary.total_objects_successful | numeric | | 1 |
 
 List all the endpoints/sensors configured on the device
 
-Type: **investigate** \
+Type: **investigate** <br>
 Read only: **True**
 
 #### Action Parameters
@@ -160,7 +160,7 @@ summary.total_objects_successful | numeric | | 1 |
 
 Get information about an endpoint
 
-Type: **investigate** \
+Type: **investigate** <br>
 Read only: **True**
 
 #### Action Parameters
@@ -239,7 +239,7 @@ summary.total_objects_successful | numeric | | 1 |
 
 Look for files matching given criteria
 
-Type: **investigate** \
+Type: **investigate** <br>
 Read only: **True**
 
 #### Action Parameters
@@ -285,7 +285,7 @@ summary.total_objects_successful | numeric | | 1 |
 
 Retrieve matching regex in a client's browser cache
 
-Type: **investigate** \
+Type: **investigate** <br>
 Read only: **True**
 
 #### Action Parameters
@@ -348,7 +348,7 @@ summary.total_objects_successful | numeric | | 1 |
 
 Retrieve available hunts
 
-Type: **investigate** \
+Type: **investigate** <br>
 Read only: **True**
 
 #### Action Parameters
@@ -395,7 +395,7 @@ summary.total_objects_successful | numeric | | 1 |
 
 Retrieve available cron jobs
 
-Type: **investigate** \
+Type: **investigate** <br>
 Read only: **True**
 
 #### Action Parameters

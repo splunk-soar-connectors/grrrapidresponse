@@ -144,7 +144,7 @@ class GrrConnector(BaseConnector):
                 auth=(config[GRR_JSON_USERNAME], config[GRR_JSON_PASSWORD]),  # basic authentication
                 data=data,
                 headers=headers,
-                verify=config.get(GRR_JSON_VERIFY_SERVER_CERT, False),
+                verify=config.get(GRR_JSON_VERIFY_SERVER_CERT, True),
                 params=params,
             )
         except Exception as e:
@@ -164,7 +164,7 @@ class GrrConnector(BaseConnector):
         config = self.get_config()
         url = self._base_url + endpoint
         auth = (config[GRR_JSON_USERNAME], config[GRR_JSON_PASSWORD])
-        verify_cert = config.get(GRR_JSON_VERIFY_SERVER_CERT, False)
+        verify_cert = config.get(GRR_JSON_VERIFY_SERVER_CERT, True)
         s = requests.Session()
         s.auth = auth
 

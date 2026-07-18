@@ -235,11 +235,17 @@ class GrrConnector(BaseConnector):
             ret_val, resp_json = self._verify_response(r, action_result)
             if phantom.is_fail(ret_val):
                 return action_result.get_status()
-            if resp_json["state"] != "RUNNING":
-                # Flow has finished
-                break
+            state = resp_json.get("state")
+            if state == "TERMINATED":
+                return phantom.APP_SUCCESS
+            if state != "RUNNING":
+                context = resp_json.get("context", {})
+                detail = context.get("status") or context.get("backtrace")
+                message = f"Flow {flow_id} ended in state {state or 'UNKNOWN'}"
+                if detail:
+                    message = f"{message}: {detail}"
+                return action_result.set_status(phantom.APP_ERROR, message)
             time.sleep(1)
-        return phantom.APP_SUCCESS
 
     def _get_flow_result(self, endpoint, action_result):
         self.save_progress("Retrieving flow results")

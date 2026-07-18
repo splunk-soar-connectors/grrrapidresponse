@@ -222,8 +222,12 @@ class GrrConnector(BaseConnector):
 
     def _wait_for_flow(self, address, s, action_result, verify_cert=False):
         self.save_progress("Waiting for flow to complete")
+        flow_id = address.rsplit("/", 1)[-1].split("?", 1)[0]
+        deadline = time.monotonic() + FLOW_WAIT_TIMEOUT
 
         while True:
+            if time.monotonic() >= deadline:
+                return action_result.set_status(phantom.APP_ERROR, f"Flow {flow_id} did not complete within {FLOW_WAIT_TIMEOUT} seconds")
             try:
                 r = s.get(address, verify=verify_cert, timeout=DEFAULT_REQUEST_TIMEOUT)
             except Exception as e:

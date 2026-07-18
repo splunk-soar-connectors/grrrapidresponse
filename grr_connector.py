@@ -355,7 +355,7 @@ class GrrConnector(BaseConnector):
         action_result = self.add_action_result(ActionResult(dict(param)))
 
         # Required values can be accessed directly
-        client_id = requests.compat.quote(param[GRR_JSON_CLIENT_ID])
+        client_id = requests.compat.quote(param[GRR_JSON_CLIENT_ID], safe="")
 
         endpoint = f"/api/v2/clients/{client_id}/flows"
 
@@ -460,7 +460,7 @@ class GrrConnector(BaseConnector):
         # Access action parameters passed in the 'param' dictionary
 
         # Required values can be accessed directly
-        client_id = requests.compat.quote(param[GRR_JSON_CLIENT_ID])
+        client_id = requests.compat.quote(param[GRR_JSON_CLIENT_ID], safe="")
 
         if client_id is None:
             return action_result.set_status(phantom.APP_ERROR, "Please specify client id")
@@ -500,7 +500,7 @@ class GrrConnector(BaseConnector):
         # Access action parameters passed in the 'param' dictionary
 
         # Required values can be accessed directly
-        client_id = requests.compat.quote(param[GRR_JSON_CLIENT_ID])
+        client_id = requests.compat.quote(param[GRR_JSON_CLIENT_ID], safe="")
         file_path = param[GRR_JSON_FILE_PATH]
 
         endpoint = f"/api/v2/clients/{client_id}/flows"
@@ -558,7 +558,7 @@ class GrrConnector(BaseConnector):
         # Access action parameters passed in the 'param' dictionary
 
         # Required values can be accessed directly
-        client_id = requests.compat.quote(param[GRR_JSON_CLIENT_ID])
+        client_id = requests.compat.quote(param[GRR_JSON_CLIENT_ID], safe="")
         regex = param[GRR_JSON_BROWSER_CACHE_REGEX]
         users = [x.strip() for x in str(param[GRR_JSON_USERS]).split(",") if x.strip()]  # might need to format if multiple users
 

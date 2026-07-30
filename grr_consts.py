@@ -1,6 +1,6 @@
 # File: grr_consts.py
 #
-# Copyright (c) 2018-2025 Splunk Inc.
+# Copyright (c) 2018-2026 Splunk Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -28,3 +28,4 @@ GRR_JSON_VERIFY_SERVER_CERT = "verify_server_cert"
 GRR_INVALID_COUNT_MSG = "Please provide a non-zero positive integer in the {param_name} parameter"
 GRR_INVALID_OFFSET_MSG = "Please provide a non-negative integer in the {param_name} parameter"
 DEFAULT_REQUEST_TIMEOUT = 30  # in seconds
+FLOW_WAIT_TIMEOUT = 600  # in seconds

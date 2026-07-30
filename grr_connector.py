@@ -1,6 +1,6 @@
 # File: grr_connector.py
 #
-# Copyright (c) 2018-2025 Splunk Inc.
+# Copyright (c) 2018-2026 Splunk Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -144,7 +144,7 @@ class GrrConnector(BaseConnector):
                 auth=(config[GRR_JSON_USERNAME], config[GRR_JSON_PASSWORD]),  # basic authentication
                 data=data,
                 headers=headers,
-                verify=config.get(GRR_JSON_VERIFY_SERVER_CERT, False),
+                verify=config.get(GRR_JSON_VERIFY_SERVER_CERT, True),
                 params=params,
             )
         except Exception as e:
@@ -164,7 +164,7 @@ class GrrConnector(BaseConnector):
         config = self.get_config()
         url = self._base_url + endpoint
         auth = (config[GRR_JSON_USERNAME], config[GRR_JSON_PASSWORD])
-        verify_cert = config.get(GRR_JSON_VERIFY_SERVER_CERT, False)
+        verify_cert = config.get(GRR_JSON_VERIFY_SERVER_CERT, True)
         s = requests.Session()
         s.auth = auth
 
@@ -222,8 +222,12 @@ class GrrConnector(BaseConnector):
 
     def _wait_for_flow(self, address, s, action_result, verify_cert=False):
         self.save_progress("Waiting for flow to complete")
+        flow_id = address.rsplit("/", 1)[-1].split("?", 1)[0]
+        deadline = time.monotonic() + FLOW_WAIT_TIMEOUT
 
         while True:
+            if time.monotonic() >= deadline:
+                return action_result.set_status(phantom.APP_ERROR, f"Flow {flow_id} did not complete within {FLOW_WAIT_TIMEOUT} seconds")
             try:
                 r = s.get(address, verify=verify_cert, timeout=DEFAULT_REQUEST_TIMEOUT)
             except Exception as e:
@@ -231,11 +235,17 @@ class GrrConnector(BaseConnector):
             ret_val, resp_json = self._verify_response(r, action_result)
             if phantom.is_fail(ret_val):
                 return action_result.get_status()
-            if resp_json["state"] != "RUNNING":
-                # Flow has finished
-                break
+            state = resp_json.get("state")
+            if state == "TERMINATED":
+                return phantom.APP_SUCCESS
+            if state != "RUNNING":
+                context = resp_json.get("context", {})
+                detail = context.get("status") or context.get("backtrace")
+                message = f"Flow {flow_id} ended in state {state or 'UNKNOWN'}"
+                if detail:
+                    message = f"{message}: {detail}"
+                return action_result.set_status(phantom.APP_ERROR, message)
             time.sleep(1)
-        return phantom.APP_SUCCESS
 
     def _get_flow_result(self, endpoint, action_result):
         self.save_progress("Retrieving flow results")
@@ -355,7 +365,7 @@ class GrrConnector(BaseConnector):
         action_result = self.add_action_result(ActionResult(dict(param)))
 
         # Required values can be accessed directly
-        client_id = requests.compat.quote(param[GRR_JSON_CLIENT_ID])
+        client_id = requests.compat.quote(param[GRR_JSON_CLIENT_ID], safe="")
 
         endpoint = f"/api/v2/clients/{client_id}/flows"
 
@@ -460,7 +470,7 @@ class GrrConnector(BaseConnector):
         # Access action parameters passed in the 'param' dictionary
 
         # Required values can be accessed directly
-        client_id = requests.compat.quote(param[GRR_JSON_CLIENT_ID])
+        client_id = requests.compat.quote(param[GRR_JSON_CLIENT_ID], safe="")
 
         if client_id is None:
             return action_result.set_status(phantom.APP_ERROR, "Please specify client id")
@@ -500,7 +510,7 @@ class GrrConnector(BaseConnector):
         # Access action parameters passed in the 'param' dictionary
 
         # Required values can be accessed directly
-        client_id = requests.compat.quote(param[GRR_JSON_CLIENT_ID])
+        client_id = requests.compat.quote(param[GRR_JSON_CLIENT_ID], safe="")
         file_path = param[GRR_JSON_FILE_PATH]
 
         endpoint = f"/api/v2/clients/{client_id}/flows"
@@ -558,7 +568,7 @@ class GrrConnector(BaseConnector):
         # Access action parameters passed in the 'param' dictionary
 
         # Required values can be accessed directly
-        client_id = requests.compat.quote(param[GRR_JSON_CLIENT_ID])
+        client_id = requests.compat.quote(param[GRR_JSON_CLIENT_ID], safe="")
         regex = param[GRR_JSON_BROWSER_CACHE_REGEX]
         users = [x.strip() for x in str(param[GRR_JSON_USERS]).split(",") if x.strip()]  # might need to format if multiple users
 

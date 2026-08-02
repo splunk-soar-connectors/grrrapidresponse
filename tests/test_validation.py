@@ -11,20 +11,19 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-import pytest
+import unittest
 
 from grr_validation import validate_client_id
 
 
-@pytest.mark.parametrize("value", ["C.0123456789abcdef", "C.ABCDEF0123456789"])
-def test_validate_client_id_accepts_grr_grammar(value):
-    assert validate_client_id(value) == value
+class ValidateClientIdTest(unittest.TestCase):
+    def test_accepts_grr_grammar(self):
+        for value in ("C.0123456789abcdef", "C.ABCDEF0123456789"):
+            with self.subTest(value=value):
+                self.assertEqual(validate_client_id(value), value)
 
-
-@pytest.mark.parametrize(
-    "value",
-    [".", "..", "../config", "C.0123456789abcde", "C.0123456789abcdef0", "c.0123456789abcdef", "C.0123456789abcdeg"],
-)
-def test_validate_client_id_rejects_non_grr_values(value):
-    with pytest.raises(ValueError):
-        validate_client_id(value)
+    def test_rejects_non_grr_values(self):
+        invalid_values = (".", "..", "../config", "C.0123456789abcde", "C.0123456789abcdef0", "c.0123456789abcdef", "C.0123456789abcdeg")
+        for value in invalid_values:
+            with self.subTest(value=value), self.assertRaises(ValueError):
+                validate_client_id(value)

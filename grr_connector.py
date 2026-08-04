@@ -27,6 +27,7 @@ from phantom.base_connector import BaseConnector
 
 # Usage of the consts file is recommended
 from grr_consts import *
+from grr_validation import validate_client_id
 
 
 class RetVal(tuple):
@@ -365,7 +366,11 @@ class GrrConnector(BaseConnector):
         action_result = self.add_action_result(ActionResult(dict(param)))
 
         # Required values can be accessed directly
-        client_id = requests.compat.quote(param[GRR_JSON_CLIENT_ID], safe="")
+        try:
+            client_id = validate_client_id(param[GRR_JSON_CLIENT_ID])
+        except ValueError as exc:
+            return action_result.set_status(phantom.APP_ERROR, str(exc))
+        client_id = requests.compat.quote(client_id, safe="")
 
         endpoint = f"/api/v2/clients/{client_id}/flows"
 
@@ -470,10 +475,11 @@ class GrrConnector(BaseConnector):
         # Access action parameters passed in the 'param' dictionary
 
         # Required values can be accessed directly
-        client_id = requests.compat.quote(param[GRR_JSON_CLIENT_ID], safe="")
-
-        if client_id is None:
-            return action_result.set_status(phantom.APP_ERROR, "Please specify client id")
+        try:
+            client_id = validate_client_id(param[GRR_JSON_CLIENT_ID])
+        except ValueError as exc:
+            return action_result.set_status(phantom.APP_ERROR, str(exc))
+        client_id = requests.compat.quote(client_id, safe="")
 
         endpoint = f"/api/v2/clients/{client_id}"
 
@@ -510,7 +516,11 @@ class GrrConnector(BaseConnector):
         # Access action parameters passed in the 'param' dictionary
 
         # Required values can be accessed directly
-        client_id = requests.compat.quote(param[GRR_JSON_CLIENT_ID], safe="")
+        try:
+            client_id = validate_client_id(param[GRR_JSON_CLIENT_ID])
+        except ValueError as exc:
+            return action_result.set_status(phantom.APP_ERROR, str(exc))
+        client_id = requests.compat.quote(client_id, safe="")
         file_path = param[GRR_JSON_FILE_PATH]
 
         endpoint = f"/api/v2/clients/{client_id}/flows"
@@ -568,7 +578,11 @@ class GrrConnector(BaseConnector):
         # Access action parameters passed in the 'param' dictionary
 
         # Required values can be accessed directly
-        client_id = requests.compat.quote(param[GRR_JSON_CLIENT_ID], safe="")
+        try:
+            client_id = validate_client_id(param[GRR_JSON_CLIENT_ID])
+        except ValueError as exc:
+            return action_result.set_status(phantom.APP_ERROR, str(exc))
+        client_id = requests.compat.quote(client_id, safe="")
         regex = param[GRR_JSON_BROWSER_CACHE_REGEX]
         users = [x.strip() for x in str(param[GRR_JSON_USERS]).split(",") if x.strip()]  # might need to format if multiple users
 
